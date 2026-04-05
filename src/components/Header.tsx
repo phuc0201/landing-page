@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
+import { GoHeart } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { Link } from "react-router-dom";
 import LogoDefault from "../assets/images/logo_default.png";
@@ -21,9 +22,9 @@ const navItems: NavItem[] = [
   {
     label: "Sản phẩm",
     dropdown: [
-      { label: "Category 1", href: "/products/category1" },
-      { label: "Category 2", href: "/products/category2" },
-      { label: "Category 3", href: "/products/category3" },
+      { label: "Category 1", href: "/products" },
+      { label: "Category 2", href: "/products" },
+      { label: "Category 3", href: "/products" },
     ],
   },
   { label: "Quy trình", href: "/process" },
@@ -38,52 +39,43 @@ const navItems: NavItem[] = [
   { label: "Liên hệ", href: "/contact" },
 ];
 
-export default function Header() {
+export default function Header({
+  scrolled = true,
+  ref,
+}: {
+  scrolled?: boolean;
+  ref: React.Ref<HTMLDivElement>;
+}) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  const handleDropdownHover = () => {};
-
-  const handleDropdownLeave = () => {};
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4">
+    <header
+      ref={ref}
+      className={`z-40 ${scrolled ? "bg-white shadow" : "bg-transparent"} transition-colors duration-300`}
+    >
+      <div className="section-container mx-auto px-4">
         <div
           className={`flex items-center justify-between ${scrolled ? "py-1" : "py-4"} transition-all duration-300`}
         >
           {/* Logo */}
-          <div>
+          <Link to="/" className="flex items-center gap-2">
             <img
               src={LogoDefault}
               alt="Medi Biotech"
-              className={`lg:h-24 md:h-18 h-14 w-auto transition-transform duration-300 origin-left ${
-                scrolled ? "scale-[0.7]" : "scale-100"
+              className={`lg:h-24 md:h-18 h-14 w-auto transition-transform duration-300 origin-left object-contain ${
+                scrolled ? "scale-[0.6]" : "scale-100"
               }`}
             />
-          </div>
+          </Link>
 
           {/* Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => (
-              <div
-                key={item.label}
-                className="relative group"
-                onMouseEnter={() => item.dropdown}
-                onMouseLeave={handleDropdownLeave}
-              >
+              <div key={item.label} className="relative group" onMouseEnter={() => item.dropdown}>
                 {/* Nav Item */}
                 <Link
                   to={item.href || "#"}
-                  className="group px-3 py-2 text-[16px] font-medium text-gray-700 hover:text-[#78070e] transition-colors flex items-center gap-1"
+                  className={`group px-3 py-2 text-[16px] font-medium hover:text-[#78070e] transition-colors flex items-center gap-1 ${scrolled ? "text-gray-700" : "text-gray-200"}`}
                 >
                   {item.label}
                   {item.dropdown && (
@@ -123,11 +115,14 @@ export default function Header() {
                 <CiSearch className="h-4 w-4" />
               </button>
             </div>
+            <button className="hidden sm:flex w-11 h-11 rounded-full bg-[#78070e] text-white items-center justify-center hover:bg-[#5a0509] transition-colors text-lg">
+              <GoHeart />
+            </button>
 
             {/* Mobile Menu Button */}
             <button className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
               <svg
-                className="h-6 w-6 text-gray-700"
+                className={`h-6 w-6  ${scrolled ? "text-gray-700" : "text-gray-300"}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

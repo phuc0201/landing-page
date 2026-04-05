@@ -1,0 +1,102 @@
+import ProductThumbnail from "../../assets/products/prod1.jpg";
+import type { ApiResponse, CategoryItem, Product } from "../../types/product.type";
+
+export const PRODUCT_CATEGORIES: CategoryItem[] = [
+  { id: 0, label: "Tất cả" },
+  { id: 1, label: "Đông trùng hạ thảo tươi" },
+  { id: 2, label: "Đông trùng hạ thảo khô" },
+  { id: 3, label: "Nước đông trùng hạ thảo" },
+  { id: 4, label: "Viên nang đông trùng hạ thảo" },
+  { id: 5, label: "Quà tặng cao cấp" },
+];
+
+export const PRODUCT_MOCK_RESPONSE: ApiResponse<Product[]> = {
+  success: true,
+  data: [
+    {
+      id: 1,
+      name: "Đông trùng hạ thảo tươi hộp 50g",
+      slug: "dong-trung-ha-thao-tuoi-50g",
+      price: 1200000,
+      salePrice: 1050000,
+      categoryId: 1,
+      summary: "Đông trùng hạ thảo tươi nuôi cấy trong môi trường sạch, giữ trọn dưỡng chất.",
+      thumbnailUrl: ProductThumbnail,
+    },
+    {
+      id: 2,
+      name: "Đông trùng hạ thảo tươi hộp 100g",
+      slug: "dong-trung-ha-thao-tuoi-100g",
+      price: 2200000,
+      categoryId: 1,
+      summary: "Sản phẩm tươi chất lượng cao, phù hợp chế biến món ăn bổ dưỡng.",
+      thumbnailUrl: ProductThumbnail,
+    },
+    {
+      id: 3,
+      name: "Đông trùng hạ thảo khô sấy lạnh 20g",
+      slug: "dong-trung-ha-thao-kho-20g",
+      price: 950000,
+      salePrice: 850000,
+      categoryId: 2,
+      summary: "Được sấy lạnh giữ nguyên hoạt chất, tiện lợi sử dụng lâu dài.",
+      thumbnailUrl: ProductThumbnail,
+    },
+    {
+      id: 4,
+      name: "Đông trùng hạ thảo khô cao cấp 50g",
+      slug: "dong-trung-ha-thao-kho-50g",
+      price: 2100000,
+      categoryId: 2,
+      summary: "Sản phẩm cao cấp, thích hợp ngâm mật ong hoặc hầm thuốc bổ.",
+      thumbnailUrl: ProductThumbnail,
+    },
+    {
+      id: 5,
+      name: "Nước đông trùng hạ thảo 10 chai",
+      slug: "nuoc-dong-trung-ha-thao-10-chai",
+      price: 480000,
+      categoryId: 3,
+      summary: "Thức uống bổ dưỡng giúp tăng cường sức đề kháng.",
+      thumbnailUrl: ProductThumbnail,
+    },
+    {
+      id: 6,
+      name: "Nước đông trùng hạ thảo mật ong",
+      slug: "nuoc-dong-trung-ha-thao-mat-ong",
+      price: 520000,
+      categoryId: 3,
+      summary: "Kết hợp đông trùng hạ thảo và mật ong tự nhiên, vị thanh dễ uống.",
+      thumbnailUrl: ProductThumbnail,
+    },
+    {
+      id: 7,
+      name: "Viên nang đông trùng hạ thảo 60 viên",
+      slug: "vien-nang-dong-trung-ha-thao-60-vien",
+      price: 690000,
+      salePrice: 590000,
+      categoryId: 4,
+      summary: "Dạng viên tiện lợi, hỗ trợ tăng cường sức khỏe và miễn dịch.",
+      thumbnailUrl: ProductThumbnail,
+    },
+    {
+      id: 8,
+      name: "Hộp quà đông trùng hạ thảo cao cấp",
+      slug: "hop-qua-dong-trung-ha-thao-cao-cap",
+      price: 2500000,
+      categoryId: 5,
+      summary: "Hộp quà sang trọng, thích hợp biếu tặng dịp lễ Tết.",
+      thumbnailUrl: ProductThumbnail,
+    },
+  ],
+  meta: {
+    timestamp: "2026-04-04T10:00:00.000Z",
+    path: "/api/products",
+    pagination: {
+      page: 1,
+      totalPages: 1,
+      pageSize: 24,
+      totalItems: 8,
+    },
+  },
+};

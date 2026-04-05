@@ -19,10 +19,10 @@ export default function Topbar() {
 
   return (
     <div
-      className="w-full bg-[#78070e] py-2 overflow-hidden"
+      className="w-full bg-[#78070e] py-2 overflow-hidden "
       style={{ backgroundColor: "#78070e" }}
     >
-      <div className="relative md:min-h-9 h-5">
+      <div className="relative md:min-h-6 h-4">
         {announcements.map((announcement, index) => {
           let translateClass = "";
 
@@ -39,7 +39,7 @@ export default function Topbar() {
               key={index}
               className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ease-in-out ${translateClass}`}
             >
-              <p className="text-white md:text-sm text-[8px] font-medium text-center px-4">
+              <p className="text-white md:text-sm text-[6px] font-medium text-center px-4">
                 {announcement}
               </p>
             </div>
