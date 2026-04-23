@@ -8,7 +8,12 @@ interface HeroSectionProps {
 export default function HeroSection({ title, content, imgUrl, actions }: HeroSectionProps) {
   return (
     <section className="relative w-full h-[60vh] md:h-200 lg:h-230 overflow-hidden">
-      <img src={imgUrl} alt={title} className="absolute inset-0 w-full h-full object-cover" />
+      <img
+        loading="lazy"
+        src={imgUrl}
+        alt={title}
+        className="absolute inset-0 w-full h-full object-cover"
+      />
 
       <div className="absolute inset-0 bg-black/40" />
 

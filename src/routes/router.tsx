@@ -1,20 +1,22 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
+import Home from "../pages/Home";
 import RouteTitleSync from "./RouteTitleSync";
 
 const About = lazy(() => import("../pages/About"));
 const Blogs = lazy(() => import("../pages/Blogs"));
 const BlogDetails = lazy(() => import("../pages/Blogs/BlogDetails"));
 const Contact = lazy(() => import("../pages/Contact"));
-const Home = lazy(() => import("../pages/Home"));
 const ManufacturingProcess = lazy(() => import("../pages/ManufacturingProcess"));
 const Policies = lazy(() => import("../pages/Policies"));
 const Products = lazy(() => import("../pages/Products"));
 const ProductDetail = lazy(() => import("../pages/Products/ProductDetail"));
 
 const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => (
-  <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+  <Suspense fallback={<div className="section-container mx-auto min-h-250 py-10">Loading...</div>}>
+    {children}
+  </Suspense>
 );
 
 export const router = createBrowserRouter([
@@ -30,11 +32,7 @@ export const router = createBrowserRouter([
       {
         index: true,
         handle: { title: "Trang chủ", layout: { headerMode: "fixed" } },
-        element: (
-          <SuspenseWrapper>
-            <Home />
-          </SuspenseWrapper>
-        ),
+        element: <Home />,
       },
       {
         path: "about",
