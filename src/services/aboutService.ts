@@ -1,18 +1,18 @@
 import type { About } from "../types/about.type";
-import type { ApiResponse } from "../types/product.type";
+import type { ApiResponse } from "../types/apiResponse";
 import type { AxiosBaseQueryError } from "./base/axiosBaseQuery";
 import { createBaseApiFactory } from "./base/baseFactory";
 
-const aboutBaseFactory = createBaseApiFactory<About, "About">({
+export const aboutService = createBaseApiFactory<About, "About">({
   resource: "abouts",
   tag: "About",
 });
 
-const aboutApi = aboutBaseFactory.injectEndpoints({
+const aboutExtraApi = aboutService.injectEndpoints({
   endpoints: (builder) => ({
     getAbout: builder.query<About, void>({
       query: () => ({
-        url: "abouts",
+        url: "site-configs/about",
         method: "GET",
       }),
       transformResponse: (response: ApiResponse<About>) => {
@@ -26,8 +26,4 @@ const aboutApi = aboutBaseFactory.injectEndpoints({
   }),
 });
 
-export const aboutReducer = aboutBaseFactory.reducer;
-export const aboutReducerPath = aboutBaseFactory.reducerPath;
-export const aboutMiddleware = aboutBaseFactory.middleware;
-
-export const { useGetAboutQuery } = aboutApi;
+export const { useGetAboutQuery } = aboutExtraApi;

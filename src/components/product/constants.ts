@@ -1,5 +1,6 @@
 import ProductThumbnail from "../../assets/products/prod1.jpg";
-import type { ApiResponse, CategoryItem, Product } from "../../types/product.type";
+import type { ApiResponse } from "../../types/apiResponse";
+import type { CategoryItem, Product } from "../../types/product.type";
 
 export const PRODUCT_CATEGORIES: CategoryItem[] = [
   { id: 0, label: "Tất cả" },

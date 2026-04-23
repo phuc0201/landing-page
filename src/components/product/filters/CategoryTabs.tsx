@@ -1,19 +1,29 @@
-import type { CategoryItem } from "../../../types/product.type";
+import { useGetCategoriesQuery } from "../../../services/categoryService";
 
 interface CategoryTabsProps {
-  categories: CategoryItem[];
   selectedCategoryId: number;
   onSelectCategory: (categoryId: number) => void;
 }
 
-export default function CategoryTabs({
-  categories,
-  selectedCategoryId,
-  onSelectCategory,
-}: CategoryTabsProps) {
+export default function CategoryTabs({ selectedCategoryId, onSelectCategory }: CategoryTabsProps) {
+  const { data: categoriesData } = useGetCategoriesQuery({});
+
   return (
     <div className="hidden lg:flex flex-wrap gap-2">
-      {categories.map((category) => {
+      <button
+        type="button"
+        key={0}
+        onClick={() => onSelectCategory(0)}
+        className={`rounded-full border px-5 py-2 text-sm font-medium transition ${
+          selectedCategoryId === 0
+            ? "border-black bg-black text-white"
+            : "border-gray-300 bg-white text-gray-600 hover:border-gray-400"
+        }`}
+      >
+        Tất cả
+      </button>
+
+      {categoriesData?.data?.map((category) => {
         const isActive = selectedCategoryId === category.id;
 
         return (
@@ -27,7 +37,7 @@ export default function CategoryTabs({
                 : "border-gray-300 bg-white text-gray-600 hover:border-gray-400"
             }`}
           >
-            {category.label}
+            {category.name}
           </button>
         );
       })}

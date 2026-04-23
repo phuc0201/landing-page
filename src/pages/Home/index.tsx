@@ -11,7 +11,6 @@ import { useGetAboutQuery } from "../../services/aboutService";
 
 export default function Home() {
   const { data: about } = useGetAboutQuery();
-  console.log("🚀 ~ Home ~ about:", about);
 
   const banners = [
     {

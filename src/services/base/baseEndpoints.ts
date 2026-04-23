@@ -1,4 +1,4 @@
-import type { ApiResponse } from "../../types/product.type";
+import type { ApiResponse } from "../../types/apiResponse";
 import type { QueryParameter } from "../../types/queryParameter";
 import { buildParams } from "../../utils/queryHelpers";
 import type { TaggedBuilder } from "./baseFactory";

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { PRODUCT_CATEGORIES } from "../../components/product/constants";
 import CategoryDrawer from "../../components/product/filters/CategoryDrawer";
 import CategoryTabs from "../../components/product/filters/CategoryTabs";
 import { useProductFilters } from "../../components/product/filters/useProductFilters";
@@ -34,13 +33,11 @@ export default function Products() {
         </div>
 
         <CategoryTabs
-          categories={PRODUCT_CATEGORIES}
           selectedCategoryId={selectedCategoryId}
           onSelectCategory={setSelectedCategoryId}
         />
 
         <CategoryDrawer
-          categories={PRODUCT_CATEGORIES}
           selectedCategoryId={selectedCategoryId}
           isOpen={isFilterDrawerOpen}
           onClose={() => setIsFilterDrawerOpen(false)}

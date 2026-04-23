@@ -1,8 +1,7 @@
 import { Drawer } from "antd";
-import type { CategoryItem } from "../../../types/product.type";
+import { useGetCategoriesQuery } from "../../../services/categoryService";
 
 interface CategoryDrawerProps {
-  categories: CategoryItem[];
   selectedCategoryId: number;
   isOpen: boolean;
   onClose: () => void;
@@ -10,12 +9,13 @@ interface CategoryDrawerProps {
 }
 
 export default function CategoryDrawer({
-  categories,
   selectedCategoryId,
   isOpen,
   onClose,
   onSelectCategory,
 }: CategoryDrawerProps) {
+  const { data: categoriesData } = useGetCategoriesQuery({});
+
   return (
     <Drawer
       title="Lọc theo danh mục"
@@ -26,7 +26,7 @@ export default function CategoryDrawer({
       className="lg:hidden"
     >
       <div className="flex flex-col">
-        {categories.map((category) => {
+        {categoriesData?.data?.map((category) => {
           const isActive = selectedCategoryId === category.id;
 
           return (
@@ -40,7 +40,7 @@ export default function CategoryDrawer({
                   : "border-gray-300 bg-white text-gray-600 hover:border-gray-400"
               }`}
             >
-              {category.label}
+              {category.name}
             </button>
           );
         })}

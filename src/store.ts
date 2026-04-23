@@ -1,14 +1,18 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, type Middleware, type Reducer } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { aboutMiddleware, aboutReducer, aboutReducerPath } from "./services/aboutService";
-import { productMiddleware, productReducer, productReducerPath } from "./services/productService";
+import { allRTKServices } from "./services/base/allRTKServices";
+
+const reducers = Object.values(allRTKServices).reduce<Record<string, Reducer>>((acc, service) => {
+  acc[service.reducerPath] = service.reducer;
+  return acc;
+}, {});
+
+const serviceMiddlewares = Object.values(allRTKServices).map(
+  (service) => service.middleware as Middleware,
+);
 
 export const store = configureStore({
-  reducer: { [aboutReducerPath]: aboutReducer, [productReducerPath]: productReducer } as Record<
-    string,
-    any
-  >,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(aboutMiddleware as any, productMiddleware as any),
+  reducer: reducers,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(...serviceMiddlewares),
 });
 setupListeners(store.dispatch);

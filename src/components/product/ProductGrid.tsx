@@ -25,7 +25,11 @@ export default function ProductGrid({ products }: ProductGridProps) {
             summary={product.summary ?? "Đang cập nhật mô tả sản phẩm."}
             price={product.price}
             salePrice={product.salePrice}
-            thumbnailUrl={product.thumbnailUrl ?? ProductThumbnail}
+            thumbnailUrl={
+              product.thumbnailUrl
+                ? import.meta.env.VITE_BASE_URL + product.thumbnailUrl
+                : ProductThumbnail
+            }
           />
         </div>
       ))}
