@@ -1,29 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import type { SiteConfigItem } from "../../types/siteConfig.type";
 
-interface Reason {
-  title: string;
-  description: string;
-}
-
-export default function WhyNot() {
-  const reasons: Reason[] = [
-    {
-      title: "Chất lượng cao",
-      description:
-        "Chúng tôi cam kết cung cấp sản phẩm với tiêu chuẩn chất lượng tốt nhất, được kiểm tra kỹ lưỡng trước khi đến tay khách hàng.",
-    },
-    {
-      title: "Giá cả hợp lý",
-      description:
-        "Với mức giá cạnh tranh nhất trên thị trường, bạn sẽ nhận được giá trị tốt nhất cho đồng tiền của mình.",
-    },
-    {
-      title: "Hỗ trợ 24/7",
-      description:
-        "Đội ngũ hỗ trợ khách hàng của chúng tôi luôn sẵn sàng giúp đỡ bạn bất cứ lúc nào, trả lời mọi câu hỏi và mối quan tâm.",
-    },
-  ];
-
+export default function WhyNot({ reasons }: { reasons: SiteConfigItem[] }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [visibleItems, setVisibleItems] = useState<boolean[]>([]);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -113,7 +91,7 @@ export default function WhyNot() {
                 {reason.title}
               </h3>
               <p className="text-sm font-light text-gray-500 leading-relaxed max-w-lg">
-                {reason.description}
+                {reason.content}
               </p>
             </div>
           </div>

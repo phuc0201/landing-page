@@ -1,20 +1,31 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import CategoryDrawer from "../../components/product/filters/CategoryDrawer";
 import CategoryTabs from "../../components/product/filters/CategoryTabs";
-import { useProductFilters } from "../../components/product/filters/useProductFilters";
 import ProductGrid from "../../components/product/ProductGrid";
 import ProductSearch from "../../components/product/ProductSearch";
 import { useGetProductsQuery } from "../../services/productService";
 
 export default function Products() {
-  const { data: productRes } = useGetProductsQuery({});
+  const [searchParams] = useSearchParams();
+  const rawCategory = searchParams.get("danh-muc");
+  const parsedCategory = rawCategory?.split("-").slice(-1)[0];
+  const hasValidCategory = parsedCategory !== undefined && !Number.isNaN(Number(parsedCategory));
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const queryArgs = {
+    ...(hasValidCategory && { filters: { categoryId: Number(parsedCategory) } }),
+    page: currentPage,
+    pageSize: 8,
+  };
+
+  const { data: productRes } = useGetProductsQuery(queryArgs);
+
   const products = productRes?.data ?? [];
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
-
-  const filteredProducts = useProductFilters(products, selectedCategoryId, searchKeyword);
 
   return (
     <section className="section-container mx-auto min-h-250 py-10">
@@ -32,24 +43,17 @@ export default function Products() {
           />
         </div>
 
-        <CategoryTabs
-          selectedCategoryId={selectedCategoryId}
-          onSelectCategory={setSelectedCategoryId}
-        />
+        <CategoryTabs selectedCategoryId={hasValidCategory ? Number(parsedCategory) : 0} />
 
         <CategoryDrawer
-          selectedCategoryId={selectedCategoryId}
+          selectedCategoryId={hasValidCategory ? Number(parsedCategory) : 0}
           isOpen={isFilterDrawerOpen}
           onClose={() => setIsFilterDrawerOpen(false)}
-          onSelectCategory={(categoryId) => {
-            setSelectedCategoryId(categoryId);
-            setIsFilterDrawerOpen(false);
-          }}
         />
 
-        <p className="text-sm text-gray-400">{filteredProducts.length} sản phẩm</p>
+        <p className="text-sm text-gray-400">{products.length} sản phẩm</p>
 
-        <ProductGrid products={filteredProducts} />
+        <ProductGrid products={products} />
       </div>
     </section>
   );

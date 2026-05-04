@@ -1,9 +1,15 @@
+import type { MenuProps } from "antd";
+import { Dropdown } from "antd";
 import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { GoHeart } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { Link } from "react-router-dom";
 import LogoDefault from "../assets/images/logo_default.png";
+import { useSiteConfig } from "../provider";
+import { useGetCategoriesQuery } from "../services/categoryService";
+import { useGetPoliciesQuery } from "../services/policyService";
+import toSlug from "../utils/slugify";
 
 interface DropdownItem {
   label: string;
@@ -16,29 +22,6 @@ interface NavItem {
   dropdown?: DropdownItem[];
 }
 
-const navItems: NavItem[] = [
-  { label: "Trang chủ", href: "/" },
-  { label: "Giới thiệu", href: "/about" },
-  {
-    label: "Sản phẩm",
-    dropdown: [
-      { label: "Category 1", href: "/products" },
-      { label: "Category 2", href: "/products" },
-      { label: "Category 3", href: "/products" },
-    ],
-  },
-  { label: "Quy trình", href: "/process" },
-  {
-    label: "Chính sách",
-    dropdown: [
-      { label: "Chính sách bảo mật", href: "/policy/privacy" },
-      { label: "Điều khoản dịch vụ", href: "/policy/terms" },
-      { label: "Chính sách hoàn trả", href: "/policy/refund" },
-    ],
-  },
-  { label: "Liên hệ", href: "/contact" },
-];
-
 export default function Header({
   scrolled = true,
   ref,
@@ -46,7 +29,37 @@ export default function Header({
   scrolled?: boolean;
   ref: React.Ref<HTMLDivElement>;
 }) {
+  const { siteConfig } = useSiteConfig();
   const [searchQuery, setSearchQuery] = useState("");
+  const { data: categoryResult } = useGetCategoriesQuery({});
+  const { data: policiesResult } = useGetPoliciesQuery({});
+
+  const logoUrl = siteConfig?.icon?.mainLogo.url
+    ? import.meta.env.VITE_BASE_URL + siteConfig.icon.mainLogo.url
+    : null;
+
+  const navItems: NavItem[] = [
+    { label: "Trang chủ", href: "/" },
+    { label: "Giới thiệu", href: "/gioi-thieu" },
+    {
+      label: "Sản phẩm",
+      dropdown:
+        (categoryResult?.data || []).map((cat) => ({
+          label: cat.name,
+          href: `/san-pham?danh-muc=${toSlug(cat.name) + "-" + cat.id}`,
+        })) || [],
+    },
+    { label: "Quy trình", href: "/quy-trinh-san-xuat" },
+    {
+      label: "Chính sách",
+      dropdown: (policiesResult?.data || []).map((policy) => ({
+        label: policy.title,
+        href: `/chinh-sach/${toSlug(policy.title) + "-" + policy.id}`,
+      })),
+    },
+    { label: "Bài viết", href: "/bai-viet" },
+    { label: "Liên hệ", href: "/lien-he" },
+  ];
 
   return (
     <header
@@ -59,46 +72,70 @@ export default function Header({
         >
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <img
-              src={LogoDefault}
-              alt="Medi Biotech"
-              className={`lg:h-24 md:h-18 h-14 w-auto transition-transform duration-300 origin-left object-contain ${
+            <div
+              className={`lg:h-24 md:h-18 h-14 w-auto lg:min-w-26.5 md:min-w-20 transition-transform duration-300 origin-left ${
                 scrolled ? "scale-[0.6]" : "scale-100"
               }`}
-            />
+              style={{ aspectRatio: "auto" }}
+            >
+              <img
+                src={logoUrl ?? LogoDefault}
+                alt="Medi Biotech"
+                className="h-full w-auto object-contain transition-opacity duration-300"
+                decoding="async"
+              />
+            </div>
           </Link>
 
           {/* Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {navItems.map((item) => (
-              <div key={item.label} className="relative group" onMouseEnter={() => item.dropdown}>
-                {/* Nav Item */}
+          <nav className="hidden xl:flex items-center gap-1">
+            {navItems.map((item) => {
+              if (item.dropdown) {
+                // Chuyển dropdown items sang format MenuProps của Ant Design
+                const menuItems: MenuProps["items"] = item.dropdown.map((d) => ({
+                  key: d.href,
+                  label: (
+                    <Link
+                      to={d.href}
+                      className="text-sm text-gray-700 hover:text-[#78070e] transition-colors"
+                    >
+                      {d.label}
+                    </Link>
+                  ),
+                }));
+
+                return (
+                  <Dropdown
+                    key={item.label}
+                    menu={{ items: menuItems }}
+                    placement="bottomLeft"
+                    arrow={false}
+                    classNames="header-dropdown"
+                  >
+                    <span
+                      className={`group cursor-pointer px-3 py-2 text-[16px] font-medium hover:text-[#78070e] transition-colors flex items-center gap-1 ${
+                        scrolled ? "text-gray-700" : "text-gray-200"
+                      }`}
+                    >
+                      {item.label}
+                      <IoIosArrowDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />
+                    </span>
+                  </Dropdown>
+                );
+              }
+
+              return (
                 <Link
+                  key={item.label}
                   to={item.href || "#"}
-                  className={`group px-3 py-2 text-[16px] font-medium hover:text-[#78070e] transition-colors flex items-center gap-1 ${scrolled ? "text-gray-700" : "text-gray-200"}`}
+                  className={`px-3 py-2 text-[16px] font-medium hover:text-[#78070e] transition-colors flex items-center gap-1 ${
+                    scrolled ? "text-gray-700" : "text-gray-200"
+                  }`}
                 >
                   {item.label}
-                  {item.dropdown && (
-                    <IoIosArrowDown className="h-4 w-4 group-hover:rotate-180 transition-all duration-200" />
-                  )}
                 </Link>
-
-                {/* Dropdown Menu */}
-                {item.dropdown && (
-                  <div className="absolute left-0 mt-0 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-50">
-                    {item.dropdown.map((dropdownItem) => (
-                      <Link
-                        key={dropdownItem.label}
-                        to={dropdownItem.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#78070e] transition-colors"
-                      >
-                        {dropdownItem.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </nav>
 
           {/* Search Box */}
@@ -120,9 +157,9 @@ export default function Header({
             </button>
 
             {/* Mobile Menu Button */}
-            <button className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <button className="xl:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
               <svg
-                className={`h-6 w-6  ${scrolled ? "text-gray-700" : "text-gray-300"}`}
+                className={`h-6 w-6 ${scrolled ? "text-gray-700" : "text-gray-300"}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

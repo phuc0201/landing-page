@@ -1,19 +1,20 @@
 import { Drawer } from "antd";
+import { useNavigate } from "react-router-dom";
 import { useGetCategoriesQuery } from "../../../services/categoryService";
+import { toSlug } from "../../../utils/slugify";
 
 interface CategoryDrawerProps {
   selectedCategoryId: number;
   isOpen: boolean;
   onClose: () => void;
-  onSelectCategory: (categoryId: number) => void;
 }
 
 export default function CategoryDrawer({
   selectedCategoryId,
   isOpen,
   onClose,
-  onSelectCategory,
 }: CategoryDrawerProps) {
+  const navigate = useNavigate();
   const { data: categoriesData } = useGetCategoriesQuery({});
 
   return (
@@ -33,7 +34,7 @@ export default function CategoryDrawer({
             <button
               type="button"
               key={category.id}
-              onClick={() => onSelectCategory(category.id)}
+              onClick={() => navigate(`?category=${toSlug(category.name)}-${category.id}`)}
               className={`w-full px-6 py-3 text-left text-sm font-medium transition ${
                 isActive
                   ? "border-(--primary-color) bg-(--primary-color) text-white"

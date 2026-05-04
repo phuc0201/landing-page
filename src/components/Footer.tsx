@@ -146,7 +146,7 @@ const Footer: React.FC = () => {
 
       <div className="border-t border-gray-200">
         <div className="flex justify-center py-4 text-xs text-gray-400">
-          <p>© {new Date().getFullYear()} NodTech. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} MediBiotech. All rights reserved.</p>
         </div>
       </div>
     </footer>

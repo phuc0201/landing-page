@@ -1,9 +1,21 @@
 import { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 import LogoDefault from "./assets/images/logo_default.png";
+import { useSiteConfig } from "./provider";
 import { router } from "./routes/router";
+import { useGetSiteConfigQuery } from "./services/siteConfigService";
 
 export default function App() {
+  const { data: siteConfigResult } = useGetSiteConfigQuery();
+  const { setSiteConfig, setIsConfigReady } = useSiteConfig();
+
+  useEffect(() => {
+    if (siteConfigResult?.data) {
+      setSiteConfig(siteConfigResult.data);
+      setIsConfigReady(true);
+    }
+  }, [siteConfigResult, setSiteConfig, setIsConfigReady]);
+
   function setFavicon(url?: string) {
     const id = "app-favicon";
     let link = document.getElementById(`favicon`) as HTMLLinkElement | null;

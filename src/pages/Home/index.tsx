@@ -4,6 +4,10 @@ import BannerDefault from "../../assets/banners/banner2.webp";
 import BannerSliderSkeleton from "../../components/common/BannerSliderSkeleton";
 import HeroSection from "../../components/common/HeroSection";
 import CompanyIntro from "../../components/home/CompanyIntro";
+import { useSiteConfig } from "../../provider";
+import { useGetAboutQuery } from "../../services/aboutService";
+import { useGetPopularProductsQuery } from "../../services/productService";
+import getImageUrl from "../../utils/getImageUrl";
 
 const BlogCarousel = lazy(() => import("../../components/blog/BlogCarousel"));
 const BannerSlider = lazy(() => import("../../components/common/BannerSlider"));
@@ -25,12 +29,19 @@ function SectionFallback() {
 }
 
 export default function Home() {
+  const { siteConfig } = useSiteConfig();
+  const { data: aboutResult } = useGetAboutQuery();
+  const { data: popularProducts } = useGetPopularProductsQuery();
+
+  const homeSectionConfig = siteConfig?.heroSection?.["home"];
+  const whyNotConfig = siteConfig?.whyNot || [];
+
   return (
     <div className="flex flex-col">
       <HeroSection
-        title="Đông Trùng Hạ Thảo Tinh Hoa Cho Sức Khỏe"
+        title={homeSectionConfig?.title || "Chào mừng đến với MediBiotech"}
         content="Khám phá các sản phẩm và dịch vụ tuyệt vời của chúng tôi."
-        imgUrl="https://solsticemed.com/cdn/shop/files/home-hero-1_1857x914_crop_center.jpg?v=1641528783"
+        imgUrl={homeSectionConfig?.image?.url ? getImageUrl(homeSectionConfig.image.url) : ""}
         actions={
           <Link
             to="/contact"
@@ -44,7 +55,9 @@ export default function Home() {
       <CompanyIntro
         about={{
           title: "Về chúng tôi",
-          content: `MediBiotech là thương hiệu của CÔNG TY CỔ PHẦN DƯỢC THẢO VIỆT NAM. Chúng tôi ra đời trong bối cảnh ngành DƯỢC LIỆU nước nhà đứng trước sự phát triển ồ ạt của các loại dược liệu và thực phẩm bẩn, thực phẩm nhái, hàng giả, kém chất lượngảnh hưởng đến sức khỏe người tiêu dùng. Với tiêu chí "Vì sức khỏe cộng đồng" chúng tôi luôn không ngừng nghiên cứu, nâng cao chất lượng sản phẩm nhằm mang đến cho người tiêu dùng sử dụng các sản phẩm an toàn cho sức khỏe.`,
+          content:
+            aboutResult?.intro ||
+            "Chúng tôi là công ty hàng đầu trong lĩnh vực dược phẩm sinh học.",
         }}
       />
 
@@ -53,7 +66,7 @@ export default function Home() {
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>
-        <PopularProduct />
+        <PopularProduct products={popularProducts} />
       </Suspense>
 
       <Suspense fallback={<BannerSliderSkeleton itemsToShow={3} />}>
@@ -61,7 +74,7 @@ export default function Home() {
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>
-        <WhyNot />
+        <WhyNot reasons={whyNotConfig} />
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>

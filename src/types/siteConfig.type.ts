@@ -1,3 +1,24 @@
+export type SiteConfig = {
+  bannerHome?: SiteConfigImage[];
+  color?: { primary?: string | null; secondary?: string | null };
+  contact?: SiteConfigImage[];
+  contactInfor?: ContactInfo | null;
+  heroSection?: Record<string, SiteConfigItem> | null;
+  icon?: Record<"favicon" | "mainLogo" | "subLogo", SiteConfigImage> | null;
+  topBar?: SiteConfigItem[];
+  whyNot?: SiteConfigItem[];
+};
+
+export type ContactInfo = {
+  name?: string | null;
+  address?: string | null;
+  taxCode?: string | null;
+  phoneNumber?: string | null;
+  email?: string | null;
+  lng?: number | null;
+  lat?: number | null;
+};
+
 export type SiteConfigItem = {
   id: string;
   type: string;
@@ -8,6 +29,7 @@ export type SiteConfigItem = {
   active?: boolean;
   index?: number | null;
   images?: SiteConfigImage[];
+  image?: SiteConfigImage;
 };
 
 export type UpsertSiteConfigBody = {

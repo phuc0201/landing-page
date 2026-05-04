@@ -1,3 +1,4 @@
+import type { Product } from "../../types/product.type";
 import ProductCard from "./ProductCard";
 
 export type PopularProductItem = {
@@ -12,86 +13,13 @@ export type PopularProductItem = {
 interface PopularProductProps {
   title?: string;
   subtitle?: string;
-  products?: PopularProductItem[];
+  products?: Product[];
 }
-
-const DEFAULT_PRODUCTS: PopularProductItem[] = [
-  {
-    id: 1,
-    name: "Sản phẩm A",
-    price: 100000,
-    salePrice: 90000,
-    thumbnailUrl: "https://vnherbs.vn/wp-content/uploads/2023/05/yen-6-768x768.png",
-    summary:
-      "Mô tả ngắn gọn về sản phẩm A, nêu bật các lợi ích chính và thành phần tự nhiên của nó.",
-  },
-  {
-    id: 2,
-    name: "Sản phẩm B",
-    price: 150000,
-    salePrice: 120000,
-    thumbnailUrl: "https://vnherbs.vn/wp-content/uploads/2023/05/yen-6-768x768.png",
-    summary:
-      "Mô tả ngắn gọn về sản phẩm B, nêu bật các lợi ích chính và thành phần tự nhiên của nó.",
-  },
-  {
-    id: 3,
-    name: "Sản phẩm C",
-    price: 200000,
-    thumbnailUrl: "https://vnherbs.vn/wp-content/uploads/2023/05/yen-6-768x768.png",
-    summary:
-      "Mô tả ngắn gọn về sản phẩm C, nêu bật các lợi ích chính và thành phần tự nhiên của nó.",
-  },
-  {
-    id: 4,
-    name: "Sản phẩm D",
-    price: 180000,
-    salePrice: 150000,
-    thumbnailUrl: "https://vnherbs.vn/wp-content/uploads/2023/05/yen-6-768x768.png",
-    summary:
-      "Mô tả ngắn gọn về sản phẩm D, nêu bật các lợi ích chính và thành phần tự nhiên của nó.",
-  },
-  {
-    id: 5,
-    name: "Sản phẩm A",
-    price: 100000,
-    salePrice: 90000,
-    thumbnailUrl: "https://vnherbs.vn/wp-content/uploads/2023/05/yen-6-768x768.png",
-    summary:
-      "Mô tả ngắn gọn về sản phẩm A, nêu bật các lợi ích chính và thành phần tự nhiên của nó.",
-  },
-  {
-    id: 6,
-    name: "Sản phẩm B",
-    price: 150000,
-    salePrice: 120000,
-    thumbnailUrl: "https://vnherbs.vn/wp-content/uploads/2023/05/yen-6-768x768.png",
-    summary:
-      "Mô tả ngắn gọn về sản phẩm B, nêu bật các lợi ích chính và thành phần tự nhiên của nó.",
-  },
-  {
-    id: 7,
-    name: "Sản phẩm C",
-    price: 200000,
-    thumbnailUrl: "https://vnherbs.vn/wp-content/uploads/2023/05/yen-6-768x768.png",
-    summary:
-      "Mô tả ngắn gọn về sản phẩm C, nêu bật các lợi ích chính và thành phần tự nhiên của nó.",
-  },
-  {
-    id: 8,
-    name: "Sản phẩm D",
-    price: 180000,
-    salePrice: 150000,
-    thumbnailUrl: "https://vnherbs.vn/wp-content/uploads/2023/05/yen-6-768x768.png",
-    summary:
-      "Mô tả ngắn gọn về sản phẩm D, nêu bật các lợi ích chính và thành phần tự nhiên của nó.",
-  },
-];
 
 export default function PopularProduct({
   title = "Sản phẩm nổi bật",
   subtitle = "Khám phá các dòng sản phẩm tiêu biểu với lợi ích rõ ràng cho sức khỏe và chất lượng sống.",
-  products = DEFAULT_PRODUCTS,
+  products = [],
 }: PopularProductProps) {
   const displayProducts = products.slice(0, 8);
 
@@ -111,10 +39,12 @@ export default function PopularProduct({
               key={product.id}
               id={product.id}
               name={product.name}
-              summary={product.summary}
+              summary={product.summary || ""}
               price={product.price}
               salePrice={product.salePrice}
-              thumbnailUrl={product.thumbnailUrl}
+              thumbnailUrl={
+                product.thumbnailUrl ? import.meta.env.VITE_BASE_URL + product.thumbnailUrl : ""
+              }
             />
           ))}
         </div>

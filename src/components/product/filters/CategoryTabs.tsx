@@ -1,11 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import { useGetCategoriesQuery } from "../../../services/categoryService";
+import toSlug from "../../../utils/slugify";
 
 interface CategoryTabsProps {
   selectedCategoryId: number;
-  onSelectCategory: (categoryId: number) => void;
 }
 
-export default function CategoryTabs({ selectedCategoryId, onSelectCategory }: CategoryTabsProps) {
+export default function CategoryTabs({ selectedCategoryId }: CategoryTabsProps) {
+  const navigate = useNavigate();
   const { data: categoriesData } = useGetCategoriesQuery({});
 
   return (
@@ -13,7 +15,7 @@ export default function CategoryTabs({ selectedCategoryId, onSelectCategory }: C
       <button
         type="button"
         key={0}
-        onClick={() => onSelectCategory(0)}
+        onClick={() => navigate("?danh-muc=all")}
         className={`rounded-full border px-5 py-2 text-sm font-medium transition ${
           selectedCategoryId === 0
             ? "border-black bg-black text-white"
@@ -30,7 +32,7 @@ export default function CategoryTabs({ selectedCategoryId, onSelectCategory }: C
           <button
             type="button"
             key={category.id}
-            onClick={() => onSelectCategory(category.id)}
+            onClick={() => navigate(`?danh-muc=${toSlug(category.name)}-${category.id}`)}
             className={`rounded-full border px-5 py-2 text-sm font-medium transition ${
               isActive
                 ? "border-black bg-black text-white"

@@ -1,14 +1,15 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
+import About from "../pages/About";
 import Home from "../pages/Home";
+import ManufacturingProcess from "../pages/ManufacturingProcess";
 import RouteTitleSync from "./RouteTitleSync";
 
-const About = lazy(() => import("../pages/About"));
+// const About = lazy(() => import("../pages/About"));
 const Blogs = lazy(() => import("../pages/Blogs"));
 const BlogDetails = lazy(() => import("../pages/Blogs/BlogDetails"));
 const Contact = lazy(() => import("../pages/Contact"));
-const ManufacturingProcess = lazy(() => import("../pages/ManufacturingProcess"));
 const Policies = lazy(() => import("../pages/Policies"));
 const Products = lazy(() => import("../pages/Products"));
 const ProductDetail = lazy(() => import("../pages/Products/ProductDetail"));
@@ -35,7 +36,7 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "about",
+        path: "gioi-thieu",
         handle: { title: "Về chúng tôi", layout: { headerMode: "fixed" } },
         element: (
           <SuspenseWrapper>
@@ -44,7 +45,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "products",
+        path: "san-pham",
         handle: { title: "Sản phẩm", layout: { headerMode: "sticky" } },
         element: (
           <SuspenseWrapper>
@@ -53,7 +54,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "products/:id",
+        path: "san-pham/:slug",
         handle: { title: "Chi tiết sản phẩm" },
         element: (
           <SuspenseWrapper>
@@ -62,7 +63,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "blogs",
+        path: "bai-viet",
         handle: { title: "Tin tức" },
         element: (
           <SuspenseWrapper>
@@ -71,7 +72,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "blogs/:id",
+        path: "bai-viet/:slug",
         handle: { title: "Chi tiết tin tức" },
         element: (
           <SuspenseWrapper>
@@ -80,7 +81,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "policies/:id",
+        path: "chinh-sach/:slug",
         handle: { title: "Chính sách" },
         element: (
           <SuspenseWrapper>
@@ -89,8 +90,8 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "manufacturing",
-        handle: { title: "Quy trình sản xuất" },
+        path: "quy-trinh-san-xuat",
+        handle: { title: "Quy trình sản xuất", layout: { headerMode: "fixed" } },
         element: (
           <SuspenseWrapper>
             <ManufacturingProcess />
@@ -98,7 +99,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "contact",
+        path: "lien-he",
         handle: {
           title: "Liên hệ",
           layout: { headerMode: "fixed" },
