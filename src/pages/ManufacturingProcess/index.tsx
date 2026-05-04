@@ -1,69 +1,61 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import HeroSection from "../../components/common/HeroSection";
 import { useSiteConfig } from "../../provider";
+import { useGetManufacturingProcessQuery } from "../../services/manuService";
+import type { SiteConfigItem } from "../../types/siteConfig.type";
 
-type Image = {
-  url: string;
-  alt?: string | null;
-};
+const StepItem: React.FC<{ step: SiteConfigItem; reverse?: boolean }> = ({ step, reverse }) => {
+  const ref = useRef<HTMLDivElement>(null);
 
-type Step = {
-  id: string;
-  title: string;
-  content: string;
-  index: number;
-  image?: Image;
-};
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
 
-type Data = {
-  title: string;
-  intro: string;
-  steps: Step[];
-};
-
-const data: Data = {
-  title: "Quy trình sản xuất",
-  intro:
-    "MEDI BIOTECH Việt Nam cam kết mang đến Đông trùng hạ thảo đạt chuẩn khoa học, góp phần nâng cao giá trị nấm dược liệu Việt Nam và phục vụ sức khỏe cộng đồng.",
-  steps: [
-    {
-      id: "1",
-      title: "Tuyển chọn & nhân giống chủng nấm",
-      content:
-        "Quy trình sản xuất bắt đầu từ việc tuyển chọn chủng Cordyceps militaris thuần khiết...",
-      index: 1,
-      image: {
-        url: "/public/manu-process/0fd7ee4a-028e-4db3-936a-074f382031be/ea731a29-cbff-4a58-b67b-afa288e90c4d",
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add("animate-in");
+          observer.unobserve(el);
+        }
       },
-    },
-    {
-      id: "2",
-      title: "Chuẩn bị giá thể nuôi trồng",
-      content: "Giá thể được phối trộn từ các thành phần tự nhiên như gạo lứt...",
-      index: 2,
-      image: {
-        url: "/public/manu-process/0fd7ee4a-028e-4db3-936a-074f382031be/ea731a29-cbff-4a58-b67b-afa288e90c4d",
-      },
-    },
-  ],
-};
+      { threshold: 0.15 },
+    );
 
-const StepItem: React.FC<{ step: Step; reverse?: boolean }> = ({ step, reverse }) => {
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
-      className={`grid md:grid-cols-2 gap-8 items-center py-12 ${
-        reverse ? "md:[&>*:first-child]:order-2" : ""
-      }`}
+      ref={ref}
+      className={`
+        grid md:grid-cols-2 gap-8 items-center py-12
+        opacity-0 translate-y-8 transition-all duration-700 ease-out
+        [&.animate-in]:opacity-100 [&.animate-in]:translate-y-0
+        ${reverse ? "md:[&>*:first-child]:order-2" : ""}
+      `}
     >
-      <div className="w-full h-70 md:h-90 overflow-hidden rounded-2xl">
+      <div
+        className={`
+          w-full h-70 md:h-90 overflow-hidden rounded-2xl
+          opacity-0 transition-all duration-700 ease-out delay-150
+          ${reverse ? "-translate-x-6" : "translate-x-6"}
+          in-[.animate-in]:opacity-100 in-[.animate-in]:translate-x-0
+        `}
+      >
         <img
           src={import.meta.env.VITE_BASE_URL + step.image?.url}
-          alt={step.title}
           className="w-full h-full object-cover hover:scale-105 transition duration-500"
         />
       </div>
 
-      <div>
+      <div
+        className={`
+          opacity-0 transition-all duration-700 ease-out delay-300
+          ${reverse ? "translate-x-6" : "-translate-x-6"}
+          in-[.animate-in]:opacity-100 in-[.animate-in]:translate-x-0
+        `}
+      >
         <div className="text-sm text-red-700 font-semibold mb-2">Bước {step.index}</div>
         <h3 className="text-2xl md:text-3xl font-bold mb-4">{step.title}</h3>
         <p className="text-gray-600 leading-relaxed whitespace-pre-line">{step.content}</p>
@@ -73,6 +65,7 @@ const StepItem: React.FC<{ step: Step; reverse?: boolean }> = ({ step, reverse }
 };
 
 export default function ManufacturingProcess() {
+  const { data: manuProcessData } = useGetManufacturingProcessQuery();
   const { siteConfig } = useSiteConfig();
   const manuProcessConfig = siteConfig?.heroSection?.["manuProcess"];
 
@@ -89,15 +82,16 @@ export default function ManufacturingProcess() {
 
       <div className="bg-[radial-gradient(circle_at_top,rgba(120,7,14,0.08),transparent_28%),linear-gradient(180deg,#fff_0%,#fffaf8_100%)]">
         <div className="max-w-6xl mx-auto px-4 py-16">
-          {/* Header */}
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h1 className="text-3xl md:text-5xl font-bold mb-6">{data.title}</h1>
-            <p className="text-gray-600 leading-relaxed">{data.intro}</p>
+            <h1 className="text-3xl md:text-5xl font-bold mb-6">{manuProcessData?.title}</h1>
+            <p className="text-gray-600 leading-relaxed">{manuProcessData?.intro}</p>
           </div>
 
-          {/* Steps */}
-          <div>
-            {data.steps.map((step, index) => (
+          <div className="relative">
+            {/* Vertical line */}
+            <div className="hidden md:block absolute left-1/2 top-0 -translate-x-1/2 w-0.5 h-full bg-red-100" />
+
+            {manuProcessData?.steps.map((step, index) => (
               <StepItem key={step.id} step={step} reverse={index % 2 === 1} />
             ))}
           </div>

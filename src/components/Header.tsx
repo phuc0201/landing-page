@@ -6,7 +6,7 @@ import { GoHeart } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { Link } from "react-router-dom";
 import LogoDefault from "../assets/images/logo_default.png";
-import { useSiteConfig } from "../provider";
+import { useSiteConfig, useWishlist } from "../provider";
 import { useGetCategoriesQuery } from "../services/categoryService";
 import { useGetPoliciesQuery } from "../services/policyService";
 import toSlug from "../utils/slugify";
@@ -30,6 +30,7 @@ export default function Header({
   ref: React.Ref<HTMLDivElement>;
 }) {
   const { siteConfig } = useSiteConfig();
+  const { items: wishlistItems } = useWishlist();
   const [searchQuery, setSearchQuery] = useState("");
   const { data: categoryResult } = useGetCategoriesQuery({});
   const { data: policiesResult } = useGetPoliciesQuery({});
@@ -58,6 +59,7 @@ export default function Header({
       })),
     },
     { label: "Bài viết", href: "/bai-viet" },
+    { label: "Yêu thích", href: "/yeu-thich" },
     { label: "Liên hệ", href: "/lien-he" },
   ];
 
@@ -152,8 +154,15 @@ export default function Header({
                 <CiSearch className="h-4 w-4" />
               </button>
             </div>
-            <button className="hidden sm:flex w-11 h-11 rounded-full bg-[#78070e] text-white items-center justify-center hover:bg-[#5a0509] transition-colors text-lg">
-              <GoHeart />
+            <button className="header-wishlist hidden sm:flex w-11 h-11 rounded-full bg-[#78070e] text-white items-center justify-center hover:bg-[#5a0509] transition-colors text-lg relative">
+              <Link to="/yeu-thich" className="flex items-center justify-center w-full h-full">
+                <GoHeart />
+                {wishlistItems.length > 0 && (
+                  <span className="absolute top-1 right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                    {wishlistItems.length}
+                  </span>
+                )}
+              </Link>
             </button>
 
             {/* Mobile Menu Button */}

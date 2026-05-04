@@ -59,7 +59,7 @@ export default function BannerSlider({ items, itemsToShow = 1 }: BannerSliderPro
           <div key={banner?.id} className={`overflow-hidden ${isMultiple ? "px-1" : ""}`}>
             <img
               loading="lazy"
-              src={banner?.imgUrl}
+              src={import.meta.env.VITE_BASE_URL + banner?.url}
               alt={`Banner ${banner?.id}`}
               className={`w-full object-cover object-center ${
                 isMultiple ? "h-40 sm:h-55 md:h-70 lg:h-90" : "max-h-[90vh] object-contain"

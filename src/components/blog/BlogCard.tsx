@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import toSlug from "../../utils/slugify";
 
 interface BlogCardProps {
   id: number | string;
@@ -22,9 +23,9 @@ const formatDate = (dateStr: string): string => {
 
 export default function BlogCard({ id, title, thumbnailUrl, createdAt }: BlogCardProps) {
   return (
-    <Link to={`/blogs/${id}`}>
+    <Link to={`/bai-viet/${toSlug(title) + "-" + id}`}>
       <div
-        className="relative group aspect-video overflow-hidden"
+        className="relative group aspect-video overflow-hidden h-full"
         style={{
           backgroundImage: `url(${thumbnailUrl})`,
           backgroundSize: "cover",

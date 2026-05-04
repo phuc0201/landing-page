@@ -40,9 +40,19 @@ function CtrlWheelZoom() {
   return null;
 }
 
-export default function Map() {
-  const latitude = 10.850664000361634;
-  const longitude = 106.77191309664425;
+type MapProps = {
+  latitude?: number;
+  longitude?: number;
+  title?: string;
+  address?: string;
+};
+
+export default function Map({
+  latitude = 10.850664000361634,
+  longitude = 106.77191309664425,
+  title = "Vị trí của chúng tôi",
+  address,
+}: MapProps) {
   const [isCtrlPressed, setIsCtrlPressed] = useState(false);
   const [hasFinePointer, setHasFinePointer] = useState(false);
   const [isOverlayHovered, setIsOverlayHovered] = useState(false);
@@ -124,7 +134,13 @@ export default function Map() {
 
         <Marker position={[latitude, longitude]} icon={markerIcon}>
           <Popup>
-            Location: {latitude}, {longitude}
+            <div className="space-y-1">
+              <p className="font-semibold text-sm">{title}</p>
+              {address ? <p className="text-sm">{address}</p> : null}
+              <p className="text-xs text-gray-500">
+                {latitude}, {longitude}
+              </p>
+            </div>
           </Popup>
         </Marker>
       </MapContainer>

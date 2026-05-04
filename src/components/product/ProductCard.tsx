@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useWishlist } from "../../provider";
 import "../../styles/wishlist-button.css";
 
 interface ProductCardProps {
@@ -25,13 +27,41 @@ export default function ProductCard({
   thumbnailUrl,
   summary,
 }: ProductCardProps) {
+  const { toggleItem, isInWishlist } = useWishlist();
+  const [animating, setAnimating] = useState(false);
+  const numId = typeof id === "string" ? parseInt(id, 10) : id;
+  const inWishlist = isInWishlist(numId);
   const hasSale = typeof salePrice === "number" && salePrice > 0 && salePrice < price;
   const discountPercent = hasSale ? Math.round(((price - salePrice) / price) * 100) : 0;
 
+  const handleWishlistToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setAnimating(true);
+    setTimeout(() => setAnimating(false), 600);
+
+    toggleItem({
+      id: numId,
+      name,
+      price,
+      salePrice,
+      thumbnailUrl,
+      summary,
+    });
+  };
+
   return (
     <div className="relative group overflow-hidden transition duration-300 cursor-pointer">
-      <label className="ui-bookmark absolute right-3 top-3 z-10 cursor-pointer">
-        <input type="checkbox" className="hidden" />
+      <label
+        className={`btn-wishlist ui-bookmark absolute right-3 top-3 z-10 cursor-pointer ${animating ? "animating" : ""}`}
+      >
+        <input
+          type="checkbox"
+          className="hidden"
+          checked={inWishlist}
+          onChange={handleWishlistToggle}
+        />
         <div className="bookmark">
           <svg
             viewBox="0 0 16 16"

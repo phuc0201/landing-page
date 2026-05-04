@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 import LogoDefault from "./assets/images/logo_default.png";
-import { useSiteConfig } from "./provider";
+import { useSiteConfig, WishlistProvider } from "./provider";
 import { router } from "./routes/router";
 import { useGetSiteConfigQuery } from "./services/siteConfigService";
 
-export default function App() {
+function AppContent() {
   const { data: siteConfigResult } = useGetSiteConfigQuery();
   const { setSiteConfig, setIsConfigReady } = useSiteConfig();
 
@@ -41,4 +41,12 @@ export default function App() {
     })();
   }, []);
   return <RouterProvider router={router} />;
+}
+
+export default function App() {
+  return (
+    <WishlistProvider>
+      <AppContent />
+    </WishlistProvider>
+  );
 }

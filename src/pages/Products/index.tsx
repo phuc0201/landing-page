@@ -12,11 +12,11 @@ export default function Products() {
   const parsedCategory = rawCategory?.split("-").slice(-1)[0];
   const hasValidCategory = parsedCategory !== undefined && !Number.isNaN(Number(parsedCategory));
 
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
 
   const queryArgs = {
     ...(hasValidCategory && { filters: { categoryId: Number(parsedCategory) } }),
-    page: currentPage,
+    page: 1,
     pageSize: 8,
   };
 

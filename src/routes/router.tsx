@@ -1,5 +1,7 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
+import BlogDetailsSkeleton from "../components/blog/BlogDetailsSkeleton";
+import BlogListSkeleton from "../components/blog/BlogListSkeleton";
 import MainLayout from "../layouts/MainLayout";
 import About from "../pages/About";
 import Home from "../pages/Home";
@@ -13,6 +15,8 @@ const Contact = lazy(() => import("../pages/Contact"));
 const Policies = lazy(() => import("../pages/Policies"));
 const Products = lazy(() => import("../pages/Products"));
 const ProductDetail = lazy(() => import("../pages/Products/ProductDetail"));
+const Wishlist = lazy(() => import("../pages/Wishlist"));
+const NotFound = lazy(() => import("../pages/NotFound"));
 
 const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => (
   <Suspense fallback={<div className="section-container mx-auto min-h-250 py-10">Loading...</div>}>
@@ -64,20 +68,20 @@ export const router = createBrowserRouter([
       },
       {
         path: "bai-viet",
-        handle: { title: "Tin tức" },
+        handle: { title: "Bài viết" },
         element: (
-          <SuspenseWrapper>
+          <Suspense fallback={<BlogListSkeleton />}>
             <Blogs />
-          </SuspenseWrapper>
+          </Suspense>
         ),
       },
       {
         path: "bai-viet/:slug",
-        handle: { title: "Chi tiết tin tức" },
+        handle: { title: "Chi tiết bài viết" },
         element: (
-          <SuspenseWrapper>
+          <Suspense fallback={<BlogDetailsSkeleton />}>
             <BlogDetails />
-          </SuspenseWrapper>
+          </Suspense>
         ),
       },
       {
@@ -102,11 +106,29 @@ export const router = createBrowserRouter([
         path: "lien-he",
         handle: {
           title: "Liên hệ",
-          layout: { headerMode: "fixed" },
+          layout: { headerMode: "sticky" },
         },
         element: (
           <SuspenseWrapper>
             <Contact />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "yeu-thich",
+        handle: { title: "Sản phẩm yêu thích", layout: { headerMode: "sticky" } },
+        element: (
+          <SuspenseWrapper>
+            <Wishlist />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "*",
+        handle: { title: "Không tìm thấy" },
+        element: (
+          <SuspenseWrapper>
+            <NotFound />
           </SuspenseWrapper>
         ),
       },
