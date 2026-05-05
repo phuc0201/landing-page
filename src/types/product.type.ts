@@ -1,3 +1,5 @@
+import type { SiteConfigImage } from "./siteConfig.type";
+
 export type Product = {
   id: number;
   name: string;
@@ -7,6 +9,7 @@ export type Product = {
   summary?: string;
   thumbnailUrl?: string;
   salePrice?: number;
+  images?: SiteConfigImage[];
 } & Record<string, unknown>;
 
 export type CategoryItem = {

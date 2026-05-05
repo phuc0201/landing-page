@@ -43,7 +43,7 @@ export default function BlogCard({ id, title, thumbnailUrl, createdAt }: BlogCar
           <h3 className="text-lg md:text-xl lg:text-2xl font-bold leading-snug line-clamp-3 mb-3 transition-transform duration-300">
             {title}
           </h3>
-          {/* <span className="inline-block px-4 py-2 bg-[#78070e] text-white text-xs md:text-sm font-medium rounded hover:bg-[#a50b0b] transition-all duration-300 transform lg:translate-y-4 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
+          {/* <span className="inline-block px-4 py-2 bg-(--primary-color) text-white text-xs md:text-sm font-medium rounded hover:bg-[#a50b0b] transition-all duration-300 transform lg:translate-y-4 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
             Đọc bài viết
           </span> */}
         </div>

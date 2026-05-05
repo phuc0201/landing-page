@@ -25,7 +25,7 @@ export default function HeroSection({ title, content, imgUrl, actions }: HeroSec
             {content}
           </p>
 
-          <div className="w-16 h-1 bg-[#78070e] mx-auto" />
+          <div className="w-16 h-1 bg-(--primary-color) mx-auto" />
 
           {actions && <div className="mt-6 flex flex-wrap justify-center gap-4">{actions}</div>}
         </div>

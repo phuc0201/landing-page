@@ -12,7 +12,7 @@ export default function NotFound() {
         <div className="mt-8">
           <Link
             to="/"
-            className="inline-block px-6 py-3 bg-[#78070e] text-white rounded-full font-semibold hover:bg-[#5a0509] transition-colors"
+            className="inline-block px-6 py-3 bg-(--primary-color) text-white rounded-full font-semibold hover:bg-[#5a0509] transition-colors"
           >
             Quay về trang chủ
           </Link>

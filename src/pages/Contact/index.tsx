@@ -10,7 +10,7 @@ export default function Contact() {
     <div className="">
       <section className="section-container mx-auto px-4 py-10 md:pt-16 space-y-6">
         <div className="max-w-4xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#78070e]">
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-(--primary-color)">
             Liên hệ
           </p>
           <h1 className="mt-3 text-3xl md:text-5xl font-bold text-gray-900 leading-tight">
@@ -25,7 +25,7 @@ export default function Contact() {
         <div className="grid gap-6 lg:grid-cols-2 items-start">
           <div className="ld:rounded-4xl rounded-2xl border border-[#ecd9d3] bg-white p-6 md:p-8 space-y-6 h-full">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#78070e]">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-(--primary-color)">
                 Thông tin công ty
               </p>
               <h2 className="mt-3 text-2xl font-bold text-gray-900 leading-tight">
@@ -35,7 +35,7 @@ export default function Contact() {
 
             <div className="space-y-4 text-sm text-gray-700">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#78070e]">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-(--primary-color)">
                   Địa chỉ
                 </p>
                 <p className="mt-2 text-base leading-relaxed">
@@ -45,7 +45,7 @@ export default function Contact() {
               </div>
 
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#78070e]">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-(--primary-color)">
                   Mã số thuế
                 </p>
                 <p className="mt-2 text-base font-semibold text-gray-900">
@@ -54,24 +54,24 @@ export default function Contact() {
               </div>
 
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#78070e]">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-(--primary-color)">
                   Số điện thoại
                 </p>
                 <a
                   href={`tel:${contactInfor?.phoneNumber || "039 865 3281"}`}
-                  className="mt-2 block text-base font-semibold text-gray-900 hover:text-[#78070e] transition-colors"
+                  className="mt-2 block text-base font-semibold text-gray-900 hover:text-(--primary-color) transition-colors"
                 >
                   {contactInfor?.phoneNumber || "039 865 3281"}
                 </a>
               </div>
 
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#78070e]">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-(--primary-color)">
                   Email
                 </p>
                 <a
                   href={`mailto:${contactInfor?.email || "namduoclieumedibiotech281@gmail.com"}`}
-                  className="mt-2 block text-base font-semibold text-gray-900 break-all hover:text-[#78070e] transition-colors"
+                  className="mt-2 block text-base font-semibold text-gray-900 break-all hover:text-(--primary-color) transition-colors"
                 >
                   {contactInfor?.email || "namduoclieumedibiotech281@gmail.com"}
                 </a>

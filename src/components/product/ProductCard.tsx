@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useWishlist } from "../../provider";
 import "../../styles/wishlist-button.css";
+import toSlug from "../../utils/slugify";
 
 interface ProductCardProps {
   id: number | string;
@@ -79,14 +80,14 @@ export default function ProductCard({
         </div>
       </label>
 
-      <Link to={`/products/${id}`}>
+      <Link to={`/san-pham/${toSlug(name)}-${id}`} className="block">
         <div className="relative aspect-4/3 overflow-hidden bg-gray-100">
           <span className="absolute left-0 bottom-0 right-0 py-2 flex justify-center text-white text-lg font-semibold opacity-0 bg-black/30 transition-opacity duration-300 group-hover:opacity-100 z-10">
             Xem chi tiết
           </span>
 
           {hasSale && (
-            <span className="absolute left-3 top-3 z-10 rounded-full bg-[#78070e] px-3 py-1 text-xs font-semibold text-white shadow">
+            <span className="absolute left-3 top-3 z-10 rounded-full bg-(--primary-color) px-3 py-1 text-xs font-semibold text-white shadow">
               -{discountPercent}%
             </span>
           )}
@@ -103,7 +104,7 @@ export default function ProductCard({
           <h3 className="text-lg font-semibold leading-snug text-gray-900 line-clamp-1">{name}</h3>
           <span className="text-xs text-gray-400 font-light line-clamp-1">{summary}</span>
           <div className="flex items-center gap-1 mt-1">
-            <span className="text-base font-bold text-[#78070e]">
+            <span className="text-base font-bold text-(--primary-color)">
               {formatCurrency(hasSale ? (salePrice as number) : price)}
             </span>
             {hasSale && (

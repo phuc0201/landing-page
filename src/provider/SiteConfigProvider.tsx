@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import type { SiteConfig } from "../types/siteConfig.type";
 
 const STORAGE_KEY = "site_config";
@@ -54,6 +54,16 @@ export const SiteConfigProvider = ({
     },
     [],
   );
+
+  useEffect(() => {
+    const raw = siteConfig?.color?.primary || "";
+    const color =
+      raw && !raw.startsWith("#") && /^[0-9A-Fa-f]{6}$/.test(raw) ? `#${raw}` : raw || "#78070e";
+    console.log("🚀 ~ SiteConfigProvider ~ color:", color);
+    document.documentElement.style.setProperty("--primary-color", color);
+    const meta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement | null;
+    if (meta) meta.content = color;
+  }, [siteConfig]);
 
   return (
     <SiteConfigContext.Provider

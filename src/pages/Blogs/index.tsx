@@ -117,7 +117,9 @@ export default function Blogs() {
 
                     <div className="p-4">
                       <h2 className="text-lg font-semibold mb-2">
-                        <span className="text-gray-900 hover:text-[#78070e]">{b.title}</span>
+                        <span className="text-gray-900 hover:text-(--primary-color)">
+                          {b.title}
+                        </span>
                       </h2>
                       <div className="text-xs text-gray-400">
                         {new Date(b.createdAt).toLocaleDateString("vi-VN")}

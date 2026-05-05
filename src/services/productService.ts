@@ -19,5 +19,8 @@ const productExtraService = productService.injectEndpoints({
   }),
 });
 
-export const { useGetListQuery: useGetProductsQuery, useGetPopularProductsQuery } =
-  productExtraService;
+export const {
+  useGetListQuery: useGetProductsQuery,
+  useGetByIdQuery: useGetProductByIdQuery,
+  useGetPopularProductsQuery,
+} = productExtraService;

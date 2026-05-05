@@ -16,7 +16,7 @@ export default function Wishlist() {
     <div className="">
       <section className="section-container mx-auto px-4 py-10 md:py-16">
         <div className="mb-10">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#78070e]">
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-(--primary-color)">
             Yêu thích
           </p>
           <h1 className="mt-3 text-3xl md:text-5xl font-bold text-gray-900 leading-tight">
@@ -36,7 +36,7 @@ export default function Wishlist() {
             </p>
             <Link
               to="/san-pham"
-              className="inline-block px-8 py-3 bg-[#78070e] text-white font-semibold hover:bg-[#5a0509] transition-colors"
+              className="inline-block px-8 py-3 bg-(--primary-color) text-white font-semibold hover:bg-[#5a0509] transition-colors"
             >
               Xem sản phẩm
             </Link>
@@ -61,7 +61,7 @@ export default function Wishlist() {
 
                   <div className="pt-4">
                     <Link to={`/products/${product.id}`}>
-                      <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 hover:text-[#78070e] transition-colors">
+                      <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 hover:text-(--primary-color) transition-colors">
                         {product.name}
                       </h3>
                     </Link>
@@ -73,7 +73,7 @@ export default function Wishlist() {
                     )}
 
                     <div className="flex items-center gap-2 mt-3">
-                      <span className="text-lg font-bold text-[#78070e]">
+                      <span className="text-lg font-bold text-(--primary-color)">
                         {formatCurrency(
                           product.salePrice && product.salePrice < product.price
                             ? product.salePrice

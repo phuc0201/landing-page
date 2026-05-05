@@ -13,7 +13,7 @@ export default function Policies() {
   const { data: policiesResult } = useGetPolicyByIdQuery(policyId);
 
   return (
-    <div className="section-container py-10">
+    <div className="section-container py-10 ck-content">
       <div dangerouslySetInnerHTML={{ __html: policiesResult?.data?.content || "" }} />
     </div>
   );

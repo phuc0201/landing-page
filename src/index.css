@@ -22,6 +22,31 @@ body {
   @apply max-w-360 lg:px-10 sm:px-5 px-3 overflow-hidden mx-auto;
 }
 
+/* Reset để CKEditor styles hoạt động */
+.ck-content p {
+  text-align: inherit;
+}
+
+.ck-content p img {
+  display: inline-block;
+}
+
+/* Xử lý figure tag của CKEditor */
+.ck-content figure.image {
+  display: table;
+  margin: 0 auto; /* center figure */
+}
+
+.ck-content figure.image-style-align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Quan trọng: img mặc định là inline, cần set để p text-align center hoạt động */
+.ck-content img {
+  max-width: 100%;
+}
+
 @theme {
   --font-*: initial;
   --font-outfit: "Be Vietnam Pro", sans-serif;
@@ -42,5 +67,17 @@ body {
   }
   body {
     @apply relative font-normal font-outfit z-1 bg-gray-50;
+  }
+}
+
+@layer utilities {
+  .bg-primary {
+    background-color: var(--primary-color) !important;
+  }
+  .text-primary {
+    color: var(--primary-color) !important;
+  }
+  .border-primary {
+    border-color: var(--primary-color) !important;
   }
 }

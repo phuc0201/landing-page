@@ -2,12 +2,12 @@ import { Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
 import BannerSliderSkeleton from "../../components/common/BannerSliderSkeleton";
 import HeroSection from "../../components/common/HeroSection";
+import Map from "../../components/common/Map";
 import CompanyIntro from "../../components/home/CompanyIntro";
 import { useSiteConfig } from "../../provider";
 import { useGetAboutQuery } from "../../services/aboutService";
 import { useGetPopularProductsQuery } from "../../services/productService";
 import getImageUrl from "../../utils/getImageUrl";
-import Map from "../../components/common/Map";
 
 const BlogCarousel = lazy(() => import("../../components/blog/BlogCarousel"));
 const BannerSlider = lazy(() => import("../../components/common/BannerSlider"));
@@ -21,6 +21,7 @@ function SectionFallback() {
 
 export default function Home() {
   const { siteConfig } = useSiteConfig();
+  console.log("🚀 ~ Home ~ siteConfig:", siteConfig);
   const { data: aboutResult } = useGetAboutQuery();
   const { data: popularProducts } = useGetPopularProductsQuery();
 
@@ -38,7 +39,7 @@ export default function Home() {
         actions={
           <Link
             to="/contact"
-            className="inline-block lg:px-20 px-10 py-3 bg-[#78070e] text-white md:text-lg text-xs font-medium rounded-full hover:bg-[#a50b0b] hover:text-white transition-colors"
+            className="inline-block lg:px-20 px-10 py-3 bg-(--primary-color) text-white md:text-lg text-xs font-medium rounded-full hover:bg-[#a50b0b] hover:text-white transition-colors"
           >
             Khám phá ngay
           </Link>
@@ -72,7 +73,10 @@ export default function Home() {
 
       <Suspense fallback={<SectionFallback />}>
         <div className="grid xl:grid-cols-2">
-          <Map latitude={contactInfor?.lat || undefined} longitude={contactInfor?.lng || undefined}/>
+          <Map
+            latitude={contactInfor?.lat || undefined}
+            longitude={contactInfor?.lng || undefined}
+          />
           <ContactForm />
         </div>
       </Suspense>

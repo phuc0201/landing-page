@@ -55,7 +55,7 @@ export default function About() {
         <div className="max-w-6xl mx-auto space-y-10 md:space-y-14">
           <div className="grid gap-6 items-stretch">
             <div className="rounded-3xl border border-white/70 bg-white/80 backdrop-blur-sm p-6 md:p-8 shadow-[0_20px_60px_rgba(120,7,14,0.08)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#78070e] mb-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-(--primary-color) mb-3">
                 Giới thiệu
               </p>
               <h2 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight mb-5">
@@ -74,7 +74,7 @@ export default function About() {
                 key={card.label}
                 className={`rounded-3xl border border-white/80 bg-linear-to-br ${card.accent} p-6 md:p-8 shadow-[0_20px_60px_rgba(15,23,42,0.06)]`}
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#78070e] mb-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-(--primary-color) mb-3">
                   {card.label}
                 </p>
                 <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{card.title}</h3>
@@ -85,7 +85,7 @@ export default function About() {
 
           <section className="rounded-32 border border-white/80 bg-white/90 p-6 md:p-8 shadow-[0_20px_60px_rgba(120,7,14,0.06)]">
             <div className="flex flex-col gap-3 md:gap-4 mb-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#78070e]">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-(--primary-color)">
                 Giá trị cốt lõi
               </p>
               <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
@@ -104,7 +104,7 @@ export default function About() {
                     key={`${value.index}-${value.title}`}
                     className="group rounded-2xl border border-gray-100 bg-[#fffaf8] p-5 md:p-6 transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(120,7,14,0.08)]"
                   >
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#78070e] text-lg font-bold text-white">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-(--primary-color) text-lg font-bold text-white">
                       {String(value.index).padStart(2, "0")}
                     </div>
                     <p className="text-sm md:text-base font-medium leading-7 text-gray-700">

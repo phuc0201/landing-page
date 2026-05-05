@@ -34,7 +34,7 @@ export default function CategoryDrawer({
             <button
               type="button"
               key={category.id}
-              onClick={() => navigate(`?category=${toSlug(category.name)}-${category.id}`)}
+              onClick={() => navigate(`?danh-muc=${toSlug(category.name)}-${category.id}`)}
               className={`w-full px-6 py-3 text-left text-sm font-medium transition ${
                 isActive
                   ? "border-(--primary-color) bg-(--primary-color) text-white"

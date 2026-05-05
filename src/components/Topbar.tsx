@@ -14,10 +14,7 @@ export default function Topbar() {
   }, []);
 
   return (
-    <div
-      className="w-full bg-[#78070e] py-2 overflow-hidden "
-      style={{ backgroundColor: "#78070e" }}
-    >
+    <div className="w-full bg-(--primary-color) py-2 overflow-hidden ">
       <div className="relative md:min-h-6 h-4">
         {siteConfig?.topBar
           ?.map((tb) => tb.content)

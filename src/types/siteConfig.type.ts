@@ -1,7 +1,7 @@
 export type SiteConfig = {
   bannerHome?: SiteConfigImage[];
   color?: { primary?: string | null; secondary?: string | null };
-  contact?: SiteConfigImage[];
+  contact?: SiteConfigItem[];
   contactInfor?: ContactInfo | null;
   heroSection?: Record<string, SiteConfigItem> | null;
   icon?: Record<"favicon" | "mainLogo" | "subLogo", SiteConfigImage> | null;

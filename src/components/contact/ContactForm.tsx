@@ -40,7 +40,7 @@ export default function ContactForm() {
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
           <div className="">
             <label htmlFor="name" className="block text-sm font-semibold text-white">
-              Tên <span className="text-[#78070e]">*</span>
+              Tên <span className="text-(--primary-color)">*</span>
             </label>
             <input
               type="text"
@@ -50,7 +50,7 @@ export default function ContactForm() {
               onChange={handleChange}
               required
               placeholder="Nguyễn Văn A"
-              className="w-full px-4 py-3 text-sm  rounded outline-none transition-colors duration-200 focus:border-[#78070e] bg-white placeholder-gray-400"
+              className="w-full px-4 py-3 text-sm  rounded outline-none transition-colors duration-200 focus:border-(--primary-color) bg-white placeholder-gray-400"
             />
           </div>
 
@@ -65,14 +65,14 @@ export default function ContactForm() {
               value={formData.email}
               onChange={handleChange}
               placeholder="example@email.com"
-              className="w-full px-4 py-3 text-sm  rounded outline-none transition-colors duration-200 focus:border-[#78070e] bg-white placeholder-gray-400"
+              className="w-full px-4 py-3 text-sm  rounded outline-none transition-colors duration-200 focus:border-(--primary-color) bg-white placeholder-gray-400"
             />
           </div>
         </div>
 
         <div className="">
           <label htmlFor="phone" className="block text-sm font-semibold text-white">
-            Điện thoại <span className="text-[#78070e]">*</span>
+            Điện thoại <span className="text-(--primary-color)">*</span>
           </label>
           <input
             type="tel"
@@ -88,7 +88,7 @@ export default function ContactForm() {
 
         <div className="">
           <label htmlFor="message" className="block text-sm font-semibold text-white">
-            Nội dung <span className="text-[#78070e]">*</span>
+            Nội dung <span className="text-(--primary-color)">*</span>
           </label>
           <textarea
             id="message"
@@ -98,13 +98,13 @@ export default function ContactForm() {
             rows={5}
             required
             placeholder="Nhập nội dung bạn muốn gửi..."
-            className="w-full px-4 py-3 text-sm  rounded outline-none transition-colors duration-200 focus:border-[#78070e] bg-white placeholder-gray-400 resize-none"
+            className="w-full px-4 py-3 text-sm  rounded outline-none transition-colors duration-200 focus:border-(--primary-color) bg-white placeholder-gray-400 resize-none"
           />
         </div>
 
         <button
           type="submit"
-          className="w-full py-3 text-sm font-semibold text-white bg-[#78070e] rounded hover:bg-[#5f0509] active:scale-95 transition-all duration-200"
+          className="w-full py-3 text-sm font-semibold text-white bg-(--primary-color) rounded hover:bg-[#5f0509] active:scale-95 transition-all duration-200"
         >
           {submitted ? "Đã gửi thành công!" : "Gửi"}
         </button>
