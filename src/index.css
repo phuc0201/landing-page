@@ -19,7 +19,7 @@ body {
 }
 
 .section-container {
-  @apply max-w-360 lg:px-10 sm:px-5 px-3 overflow-hidden mx-auto;
+  @apply max-w-360 lg:px-10 sm:px-5 px-3 mx-auto;
 }
 
 /* Reset để CKEditor styles hoạt động */

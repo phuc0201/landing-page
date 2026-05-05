@@ -27,6 +27,21 @@ export default function CategoryDrawer({
       className="lg:hidden"
     >
       <div className="flex flex-col">
+        <button
+          type="button"
+          onClick={() => {
+            navigate("?danh-muc=all");
+            onClose();
+          }}
+          className={`w-full px-6 py-3 text-left text-sm font-medium transition ${
+            selectedCategoryId === 0
+              ? "border-(--primary-color) bg-(--primary-color) text-white"
+              : "border-gray-300 bg-white text-gray-600 hover:border-gray-400"
+          }`}
+        >
+          Tất cả
+        </button>
+
         {categoriesData?.data?.map((category) => {
           const isActive = selectedCategoryId === category.id;
 
@@ -34,7 +49,10 @@ export default function CategoryDrawer({
             <button
               type="button"
               key={category.id}
-              onClick={() => navigate(`?danh-muc=${toSlug(category.name)}-${category.id}`)}
+              onClick={() => {
+                navigate(`?danh-muc=${toSlug(category.name)}-${category.id}`);
+                onClose();
+              }}
               className={`w-full px-6 py-3 text-left text-sm font-medium transition ${
                 isActive
                   ? "border-(--primary-color) bg-(--primary-color) text-white"

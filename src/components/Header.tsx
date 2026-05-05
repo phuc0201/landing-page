@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { CiSearch } from "react-icons/ci";
 import { GoHeart } from "react-icons/go";
 import { Link, useLocation } from "react-router-dom";
 import LogoDefault from "../assets/images/logo_default.png";
@@ -10,6 +9,7 @@ import toSlug from "../utils/slugify";
 import HeaderLogo from "./header/HeaderLogo";
 import HeaderMobileDrawer from "./header/HeaderMobileDrawer";
 import HeaderNav from "./header/HeaderNav";
+import HeaderSearchDropdown from "./search/HeaderSearchDropdown";
 
 interface DropdownItem {
   label: string;
@@ -37,6 +37,7 @@ export default function Header({
   const [isDesktop, setIsDesktop] = useState<boolean>(true);
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
+
   const { data: categoryResult } = useGetCategoriesQuery({});
   const { data: policiesResult } = useGetPoliciesQuery({});
 
@@ -109,18 +110,10 @@ export default function Header({
 
           {/* Search Box + Wishlist + Mobile Button */}
           <div className="flex items-center gap-2">
-            <div className="relative hidden sm:flex items-center bg-gray-100 rounded-full px-5 py-3">
-              <input
-                type="text"
-                placeholder="Tìm kiếm..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent outline-none text-sm text-gray-700 w-56 placeholder-gray-500"
-              />
-              <button className="text-gray-500 hover:text-primary transition-colors">
-                <CiSearch className="h-4 w-4" />
-              </button>
+            <div className="relative hidden sm:block w-72">
+              <HeaderSearchDropdown searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             </div>
+
             <button className="header-wishlist hidden sm:flex w-11 h-11 rounded-full bg-primary text-white items-center justify-center hover:bg-[#5a0509] transition-colors text-lg relative">
               <Link to="/yeu-thich" className="flex items-center justify-center w-full h-full">
                 <GoHeart />
@@ -134,13 +127,13 @@ export default function Header({
 
             {/* Mobile Menu Button */}
             <button
-              className="xl:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="xl:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors group"
               aria-label={mobileOpen ? "Đóng menu" : "Mở menu"}
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen(true)}
             >
               <svg
-                className={`h-6 w-6 ${scrolled ? "text-gray-700" : "text-gray-300"}`}
+                className={`h-6 w-6 group-hover:text-gray-700 ${scrolled ? "text-gray-700" : "text-gray-300"}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -157,6 +150,7 @@ export default function Header({
         </div>
       </div>
 
+      {/* Mobile Drawer - truyền HeaderSearchDropdown vào nếu cần */}
       <HeaderMobileDrawer
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}

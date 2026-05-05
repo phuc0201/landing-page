@@ -1,8 +1,8 @@
 import { Drawer } from "antd";
-import { CiSearch } from "react-icons/ci";
 import { GoHeart } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { Link } from "react-router-dom";
+import HeaderSearchDropdown from "../search/HeaderSearchDropdown";
 
 type DropdownItem = { label: string; href: string };
 type NavItem = { label: string; href?: string; dropdown?: DropdownItem[] };
@@ -30,7 +30,7 @@ export default function HeaderMobileDrawer({
 }) {
   return (
     <Drawer open={open} onClose={onClose} placement="right">
-      <div className="p-4">
+      <div className="">
         <div className="mb-4 flex items-center justify-between">
           <Link to="/" onClick={onClose}>
             <img src={logoUrl ?? ""} alt="Medi Biotech" className="h-16 object-contain" />
@@ -46,18 +46,11 @@ export default function HeaderMobileDrawer({
         </div>
 
         <div className="mb-4">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Tìm kiếm..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-gray-100 rounded-full px-4 py-2 outline-none"
-            />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500!">
-              <CiSearch />
-            </button>
-          </div>
+          <HeaderSearchDropdown
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            onClose={onClose}
+          />
         </div>
 
         <nav role="navigation" aria-label="Mobile navigation" className="flex flex-col gap-1">
