@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useWishlist } from "../../provider";
 import getImageUrl from "../../utils/getImageUrl";
+import toSlug from "../../utils/slugify";
 
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat("vi-VN", {
@@ -35,7 +36,7 @@ export default function Wishlist() {
               Hãy thêm những sản phẩm yêu thích của bạn để tìm kiếm dễ dàng hơn
             </p>
             <Link
-              to="/san-pham"
+              to="/san-pham?danh-muc=all"
               className="inline-block px-8 py-3 bg-(--primary-color) text-white font-semibold hover:bg-[#5a0509] transition-colors"
             >
               Xem sản phẩm
@@ -46,7 +47,7 @@ export default function Wishlist() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {items.map((product) => (
                 <div key={product.id} className="bg-white overflow-hidden">
-                  <Link to={`/products/${product.id}`}>
+                  <Link to={`/san-pham/${toSlug(product.name)}-${product.id}`}>
                     <div className="relative aspect-4/3 overflow-hidden bg-gray-100">
                       {product.thumbnailUrl && (
                         <img
@@ -60,17 +61,17 @@ export default function Wishlist() {
                   </Link>
 
                   <div className="pt-4">
-                    <Link to={`/products/${product.id}`}>
+                    <Link to={`/san-pham/${toSlug(product.name)}-${product.id}`}>
                       <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 hover:text-(--primary-color) transition-colors">
                         {product.name}
                       </h3>
                     </Link>
 
-                    {product.summary && (
+                    {/* {product.summary && (
                       <p className="text-xs text-gray-400 font-light line-clamp-1 mt-1">
                         {product.summary}
                       </p>
-                    )}
+                    )} */}
 
                     <div className="flex items-center gap-2 mt-3">
                       <span className="text-lg font-bold text-(--primary-color)">

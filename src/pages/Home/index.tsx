@@ -21,7 +21,6 @@ function SectionFallback() {
 
 export default function Home() {
   const { siteConfig } = useSiteConfig();
-  console.log("🚀 ~ Home ~ siteConfig:", siteConfig);
   const { data: aboutResult } = useGetAboutQuery();
   const { data: popularProducts } = useGetPopularProductsQuery();
 

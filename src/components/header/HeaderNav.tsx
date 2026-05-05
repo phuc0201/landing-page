@@ -22,7 +22,7 @@ export default function HeaderNav({
   toggleSubmenu: (label: string) => void;
 }) {
   return (
-    <nav className="hidden md:flex items-center gap-1">
+    <nav className="hidden xl:flex items-center gap-1">
       {navItems.map((item) => {
         if (item.dropdown) {
           if (isDesktop) {
