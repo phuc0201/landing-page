@@ -175,7 +175,7 @@ export default function HeaderSearchDropdown({
                     {blogs.slice(0, 3).map((blog) => (
                       <li key={blog.id}>
                         <Link
-                          to={`/bai-viet/${toSlug(blog.title)}-${blog.id}`}
+                          to={`/tin-tuc/${toSlug(blog.title)}-${blog.id}`}
                           onClick={handleResultClick}
                           className="flex items-center gap-3 px-4 py-3 hover:bg-primary/5 transition-colors group"
                         >

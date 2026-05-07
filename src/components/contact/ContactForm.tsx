@@ -1,5 +1,7 @@
 import { useState } from "react";
 import BgBlack from "../../assets/images/bg-black.webp";
+import { useSendContactMutation } from "../../services/notificationService";
+
 export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -8,17 +10,41 @@ export default function ContactForm() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const [sendContact, { isLoading }] = useSendContactMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setError(null);
+
+    try {
+      const result = await sendContact({
+        type: "contact",
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        message: formData.message,
+      }).unwrap();
+
+      console.log("Contact sent successfully:", result);
+      setSubmitted(true);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+      setTimeout(() => setSubmitted(false), 3000);
+    } catch (err: any) {
+      console.error("Failed to send contact:", err);
+      setError(err?.data?.error?.message || "Có lỗi xảy ra. Vui lòng thử lại.");
+    }
   };
 
   return (
@@ -104,11 +130,18 @@ export default function ContactForm() {
 
         <button
           type="submit"
-          className="w-full py-3 text-sm font-semibold text-white bg-(--primary-color) rounded hover:bg-[#5f0509] active:scale-95 transition-all duration-200"
+          disabled={isLoading}
+          className="w-full py-3 text-sm font-semibold text-white bg-(--primary-color) rounded hover:bg-[#5f0509] active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {submitted ? "Đã gửi thành công!" : "Gửi"}
+          {isLoading ? "Đang gửi..." : submitted ? "Đã gửi thành công!" : "Gửi"}
         </button>
       </form>
+
+      {error && (
+        <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded">
+          <p className="text-sm text-red-700 font-medium">{error}</p>
+        </div>
+      )}
 
       {submitted && (
         <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded">

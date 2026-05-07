@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { FaFacebook } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
+import ProductCard from "../../components/product/ProductCard";
 import ProductDetailSkeleton from "../../components/product/ProductDetailSkeleton";
 import ProductImageSlider from "../../components/product/ProductImageSlider";
 import { useSiteConfig } from "../../provider";
-import { useGetProductByIdQuery } from "../../services/productService";
+import { useGetProductByIdQuery, useGetProductsQuery } from "../../services/productService";
+import type { Product } from "../../types/product.type";
+import toSlug from "../../utils/slugify";
 
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat("vi-VN", {
@@ -12,6 +15,67 @@ const formatCurrency = (value: number) =>
     currency: "VND",
     maximumFractionDigits: 0,
   }).format(value);
+
+function RelatedProducts({
+  categoryId,
+  currentProductId,
+}: {
+  categoryId: number;
+  currentProductId: number;
+}) {
+  const { data: productRes, isLoading } = useGetProductsQuery(
+    { filters: { categoryId }, pagination: { current: 1, pageSize: 4 } },
+    { skip: !categoryId },
+  );
+
+  const related = productRes?.data?.filter((p) => p.id !== currentProductId).slice(0, 8) ?? [];
+
+  if (isLoading) {
+    return (
+      <div className="mt-12">
+        <h2 className="md:text-3xl text-xl font-bold mb-6">Sản phẩm tương tự</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="rounded-xl overflow-hidden border border-gray-100">
+              <div className="aspect-square bg-gray-200 animate-pulse" />
+              <div className="p-3 space-y-2">
+                <div className="h-4 bg-gray-200 rounded animate-pulse" />
+                <div className="h-4 bg-gray-200 rounded animate-pulse w-2/3" />
+                <div className="h-4 bg-gray-200 rounded animate-pulse w-1/2" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (!related.length) return null;
+
+  return (
+    <div className="mt-12">
+      <h2 className="md:text-3xl text-xl font-bold mb-6">Sản phẩm tương tự</h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {related.map((product: Product) => (
+          <div key={product.id}>
+            <ProductCard
+              id={product.id}
+              name={product.name}
+              price={product.price}
+              salePrice={product.salePrice}
+              summary=""
+              thumbnailUrl={
+                product.thumbnailUrl
+                  ? import.meta.env.VITE_BASE_URL + product.thumbnailUrl
+                  : "https://via.placeholder.com/300?text=No+Image"
+              }
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -26,9 +90,22 @@ export default function ProductDetail() {
     isLoading,
     isFetching,
     isError,
-  } = useGetProductByIdQuery(Number(id ?? 0), {
-    skip: !isValidId,
-  });
+  } = useGetProductByIdQuery(Number(id ?? 0), { skip: !isValidId });
+
+  const product = productDetails?.data;
+
+  useEffect(() => {
+    if (isLoading || isFetching) {
+      setShowSkeleton(true);
+      return;
+    }
+    if (!product) {
+      setShowSkeleton(false);
+      return;
+    }
+    const timer = window.setTimeout(() => setShowSkeleton(false), 120);
+    return () => window.clearTimeout(timer);
+  }, [isLoading, isFetching, product]);
 
   if (!isValidId) {
     return (
@@ -38,26 +115,6 @@ export default function ProductDetail() {
       </div>
     );
   }
-
-  const product = productDetails?.data;
-
-  useEffect(() => {
-    if (isLoading || isFetching) {
-      setShowSkeleton(true);
-      return;
-    }
-
-    if (!product) {
-      setShowSkeleton(false);
-      return;
-    }
-
-    const timer = window.setTimeout(() => {
-      setShowSkeleton(false);
-    }, 120);
-
-    return () => window.clearTimeout(timer);
-  }, [isLoading, isFetching, product]);
 
   if (isError) {
     return (
@@ -80,6 +137,7 @@ export default function ProductDetail() {
   return (
     <div className="section-container lg:py-12 py-5">
       <div className="grid w-full">
+        {/* SKELETON */}
         <div
           className="col-start-1 row-start-1 transition-opacity duration-300 ease-out"
           style={{ opacity: showSkeleton ? 1 : 0, pointerEvents: showSkeleton ? "auto" : "none" }}
@@ -88,17 +146,19 @@ export default function ProductDetail() {
           <ProductDetailSkeleton />
         </div>
 
+        {/* CONTENT */}
         <div
           className="col-start-1 row-start-1 w-full transition-opacity duration-300 ease-out"
           style={{ opacity: showSkeleton ? 0 : 1, pointerEvents: showSkeleton ? "none" : "auto" }}
         >
-          <div className="grid lg:grid-cols-5 gap-10">
+          {/* PRODUCT INFO */}
+          <div className="grid lg:grid-cols-5 md:gap-10 gap-4">
             <div className="lg:col-span-2">
               <ProductImageSlider images={product?.images || []} />
             </div>
             <div className="lg:col-span-3">
-              <div className="space-y-6">
-                <h1 className="text-5xl font-semibold text-gray-900">{product?.name}</h1>
+              <div className="md:space-y-6 space-y-1">
+                <h1 className="md:text-5xl text-xl font-semibold text-gray-900">{product?.name}</h1>
 
                 <div className="flex items-center gap-4">
                   <div className="text-2xl font-semibold text-(--primary-color)">
@@ -115,7 +175,9 @@ export default function ProductDetail() {
                   )}
                 </div>
 
-                <div className="text-gray-700 whitespace-pre-line">{product?.summary}</div>
+                {product?.summary && (
+                  <div className="text-gray-700 whitespace-pre-line">{product.summary}</div>
+                )}
 
                 <div className="pt-4">
                   <a
@@ -128,9 +190,13 @@ export default function ProductDetail() {
 
                 <Link
                   to={
-                    "https://www.facebook.com/sharer.php?u=" + "https://medibiotech.vn/products/1"
+                    "https://www.facebook.com/sharer.php?u=" +
+                    "https://medibiotech.vn/san-pham/" +
+                    toSlug(product?.name || "") +
+                    "-" +
+                    product?.id
                   }
-                  className="flex gap-3 items-center group"
+                  className="flex gap-3 items-center group mt-1"
                 >
                   <FaFacebook className="text-gray-400 text-3xl group-hover:text-blue-800 transition-colors" />
                   <span className="text-gray-400 font-semibold group-hover:text-blue-800 transition-colors">
@@ -143,9 +209,14 @@ export default function ProductDetail() {
 
           {/* DESCRIPTION */}
           <div className="ck-content">
-            <h1 className="mt-10 mb-5 text-3xl font-bold">Mô tả sản phẩm</h1>
+            <h2 className="mt-10 mb-5 md:text-3xl text-xl font-bold">Mô tả sản phẩm</h2>
             <div dangerouslySetInnerHTML={{ __html: product?.description || "" }} />
           </div>
+
+          {/* RELATED PRODUCTS */}
+          {product?.categoryId && (
+            <RelatedProducts categoryId={product.categoryId} currentProductId={product.id} />
+          )}
         </div>
       </div>
     </div>

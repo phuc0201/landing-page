@@ -23,7 +23,7 @@ const formatDate = (dateStr: string): string => {
 
 export default function BlogCard({ id, title, thumbnailUrl, createdAt }: BlogCardProps) {
   return (
-    <Link to={`/bai-viet/${toSlug(title) + "-" + id}`}>
+    <Link to={`/tin-tuc/${toSlug(title) + "-" + id}`}>
       <div
         className="relative group aspect-video overflow-hidden h-full"
         style={{

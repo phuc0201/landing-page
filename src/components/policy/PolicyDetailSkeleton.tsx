@@ -1,7 +1,7 @@
 export default function PolicyDetailSkeleton() {
   return (
     <div className="section-container py-10">
-      <div className="max-w-3xl mx-auto">
+      <div className="mx-auto">
         <div className="h-10 bg-gray-200 rounded w-3/4 mb-6 animate-pulse" />
 
         <div className="space-y-4">

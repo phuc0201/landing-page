@@ -7,7 +7,7 @@ export default function BlogDetails() {
   const { slug } = useParams<{ slug: string }>();
   const [showSkeleton, setShowSkeleton] = useState(true);
 
-  if (!slug) return <Navigate to="/bai-viet" replace />;
+  if (!slug) return <Navigate to="/tin-tuc" replace />;
 
   const m = slug.match(/-(\d+)$/);
   if (!m) return <div className="section-container py-12">Đường dẫn không hợp lệ.</div>;
@@ -49,11 +49,11 @@ export default function BlogDetails() {
         </div>
 
         <div
-          className="section-container py-12 col-start-1 row-start-1 transition-opacity duration-300 ease-out"
+          className="section-container md:py-12 py-5 col-start-1 row-start-1 transition-opacity duration-300 ease-out"
           style={{ opacity: showSkeleton ? 0 : 1, pointerEvents: showSkeleton ? "none" : "auto" }}
         >
           {!blog ? (
-            <div className="py-12">Bài viết không tìm thấy.</div>
+            <div className="">Bài viết không tìm thấy.</div>
           ) : (
             <>
               <h1 className="text-3xl font-bold mb-4">{blog.title}</h1>

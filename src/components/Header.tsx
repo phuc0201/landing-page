@@ -64,7 +64,7 @@ export default function Header({
         href: `/chinh-sach/${toSlug(policy.title) + "-" + policy.id}`,
       })),
     },
-    { label: "Bài viết", href: "/bai-viet" },
+    { label: "Tin tức", href: "/tin-tuc" },
     { label: "Liên hệ", href: "/lien-he" },
   ];
 

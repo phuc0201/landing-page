@@ -6,6 +6,5 @@ export const blogService = createBaseApiFactory<Blog, "blogs">({
   tag: "blogs",
 });
 
-// Export both list and getById hooks
 export const { useGetListQuery: useGetBlogsQuery, useGetByIdQuery: useGetBlogByIdQuery } =
   blogService;

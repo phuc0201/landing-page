@@ -3,6 +3,7 @@ import { Outlet, useLocation, useMatches } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Topbar from "../components/Topbar";
+import FloatBtn from "../components/common/FloatBtn";
 
 type HeaderMode = "sticky" | "fixed";
 
@@ -106,7 +107,7 @@ export default function MainLayout() {
       <main style={isSticky ? {} : { marginTop: `${-headerHeight}px` }} className="relative">
         <Outlet />
       </main>
-
+      <FloatBtn />
       <Footer />
     </>
   );

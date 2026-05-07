@@ -8,7 +8,7 @@ export default function Contact() {
 
   return (
     <div className="">
-      <section className="section-container mx-auto px-4 py-10 md:pt-16 space-y-6">
+      <section className="section-container mx-auto px-4 md:py-12 py-5 space-y-6">
         <div className="max-w-4xl">
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-(--primary-color)">
             Liên hệ

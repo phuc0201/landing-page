@@ -5,8 +5,12 @@ import CategoryTabs from "../../components/product/filters/CategoryTabs";
 import ProductGrid from "../../components/product/ProductGrid";
 import ProductGridSkeleton from "../../components/product/ProductGridSkeleton";
 import { useGetProductsQuery } from "../../services/productService";
+import type { Product } from "../../types/product.type";
 
 export default function Products() {
+  const PAGE_SIZE = 8;
+  const [page, setPage] = useState(1);
+  const [items, setItems] = useState<Product[]>([]);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
   const [showSkeleton, setShowSkeleton] = useState(true);
 
@@ -17,16 +21,41 @@ export default function Products() {
 
   const queryArgs = {
     ...(hasValidCategory && { filters: { categoryId: Number(parsedCategory) } }),
-    page: 1,
-    pageSize: 8,
+    page,
+    pageSize: PAGE_SIZE,
   };
 
   const { data: productRes, isLoading, isFetching } = useGetProductsQuery(queryArgs);
 
-  const products = productRes?.data ?? [];
+  const pagination = productRes?.meta?.pagination;
+  const totalPages = pagination?.totalPages ?? 1;
+
+  // merge pages into items
+  useEffect(() => {
+    if (!productRes?.data) return;
+
+    if (page === 1) {
+      setItems(productRes.data);
+      return;
+    }
+
+    setItems((prev) => {
+      const existingIds = new Set(prev.map((p) => p.id));
+      const next = [...prev];
+      for (const it of productRes.data || []) {
+        if (!existingIds.has(it.id)) next.push(it);
+      }
+      return next;
+    });
+  }, [productRes, page]);
 
   useEffect(() => {
-    if (isLoading || isFetching) {
+    if (isLoading) {
+      setShowSkeleton(true);
+      return;
+    }
+
+    if (items.length === 0) {
       setShowSkeleton(true);
       return;
     }
@@ -36,7 +65,30 @@ export default function Products() {
     }, 120);
 
     return () => window.clearTimeout(timer);
-  }, [isLoading, isFetching, products.length]);
+  }, [isLoading, items.length]);
+
+  // infinite scroll: load next page when near bottom
+  useEffect(() => {
+    const onScroll = () => {
+      if (isLoading || isFetching) return;
+      if (page >= totalPages) return;
+
+      const scrollPos = window.innerHeight + window.scrollY;
+      const threshold = document.body.offsetHeight - 300;
+      if (scrollPos >= threshold) {
+        setPage((p) => Math.min(p + 1, totalPages));
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isLoading, isFetching, page, totalPages]);
+
+  // reset page when category changes
+  useEffect(() => {
+    setPage(1);
+    setItems([]);
+  }, [parsedCategory]);
 
   return (
     <section className="section-container lg:py-12 py-5 mx-auto lg:min-h-100">
@@ -59,7 +111,7 @@ export default function Products() {
           onClose={() => setIsFilterDrawerOpen(false)}
         />
 
-        <p className="text-sm text-gray-400">{products.length} sản phẩm</p>
+        <p className="text-sm text-gray-400">{items.length} sản phẩm</p>
 
         <div className="grid">
           <div
@@ -74,9 +126,18 @@ export default function Products() {
             className="col-start-1 row-start-1 transition-opacity duration-300 ease-out"
             style={{ opacity: showSkeleton ? 0 : 1, pointerEvents: showSkeleton ? "none" : "auto" }}
           >
-            <ProductGrid products={products} />
+            <ProductGrid products={items} />
           </div>
         </div>
+      </div>
+
+      {/* loader indicator */}
+      <div className="mt-8 text-center text-sm text-gray-500">
+        {isFetching && page > 1
+          ? "Đang tải thêm..."
+          : page >= totalPages
+            ? ""
+            : "Kéo xuống để tải thêm"}
       </div>
     </section>
   );

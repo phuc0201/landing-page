@@ -99,10 +99,10 @@ const Footer: React.FC = () => {
             <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center md:text-left">
               Mạng xã hội
             </h3>
-            <ul className="space-y-2 flex flex-col items-center md:items-start">
+            <ul className="space-y-2 flex md:flex-col flex-row justify-center gap-10 md:gap-0 items-center md:items-start">
               {contactIcon && contactIcon.length > 0 ? (
                 contactIcon.map((c) => (
-                  <li key={c.id} className="text-center md:text-left">
+                  <li key={c.id} className="text-center md:text-left md:mb-2 mb-0">
                     <a
                       href={c.link || "#"}
                       target="_blank"

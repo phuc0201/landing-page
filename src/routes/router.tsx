@@ -67,7 +67,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "bai-viet",
+        path: "tin-tuc",
         handle: { title: "Bài viết" },
         element: (
           <Suspense fallback={<BlogListSkeleton />}>
@@ -76,7 +76,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "bai-viet/:slug",
+        path: "tin-tuc/:slug",
         handle: { title: "Chi tiết bài viết" },
         element: (
           <Suspense fallback={<BlogDetailsSkeleton />}>

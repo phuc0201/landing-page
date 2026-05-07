@@ -25,31 +25,5 @@ export function buildBaseEndpoints<TEntity extends Record<string, unknown>, TTag
       }),
       providesTags: [tag],
     }),
-
-    // create: builder.mutation<ApiResponse<TEntity>, TCreateDto>({
-    //   query: (body) => ({
-    //     url: resource,
-    //     method: "POST",
-    //     data: body,
-    //   }),
-    //   invalidatesTags: [tag],
-    // }),
-
-    // update: builder.mutation<ApiResponse<TEntity>, { id: string | number; body: TUpdateDto }>({
-    //   query: ({ id, body }) => ({
-    //     url: `${resource}/${id}`,
-    //     method: "PATCH",
-    //     data: body,
-    //   }),
-    //   invalidatesTags: [tag],
-    // }),
-
-    // remove: builder.mutation<ApiResponse<void>, string | number>({
-    //   query: (id) => ({
-    //     url: `${resource}/${id}`,
-    //     method: "DELETE",
-    //   }),
-    //   invalidatesTags: [tag],
-    // }),
   };
 }

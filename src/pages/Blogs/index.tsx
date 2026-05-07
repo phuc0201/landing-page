@@ -92,7 +92,7 @@ export default function Blogs() {
           <BlogListSkeleton />
         </div>
         <div
-          className="section-container py-12 col-start-1 row-start-1 transition-opacity duration-300 ease-out"
+          className="section-container md:py-12 py-5 col-start-1 row-start-1 transition-opacity duration-300 ease-out"
           style={{ opacity: showSkeleton ? 0 : 1, pointerEvents: showSkeleton ? "none" : "auto" }}
         >
           {!isEmpty && (
@@ -103,7 +103,7 @@ export default function Blogs() {
                 return (
                   <Link
                     key={b.id}
-                    to={`/bai-viet/${slug}`}
+                    to={`/tin-tuc/${slug}`}
                     className="bg-white rounded-lg shadow-sm overflow-hidden"
                   >
                     {b.thumbnailUrl ? (
