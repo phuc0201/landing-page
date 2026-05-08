@@ -57,14 +57,14 @@ export default function BannerSlider({ items, itemsToShow = 1 }: BannerSliderPro
       >
         {items.map((banner: any) => (
           <div key={banner?.id} className={`overflow-hidden ${isMultiple ? "px-1" : ""}`}>
-            <img
-              loading="lazy"
-              src={import.meta.env.VITE_BASE_URL + banner?.url}
-              alt={`Banner ${banner?.id}`}
-              className={`w-full object-cover object-center ${
-                isMultiple ? "h-40 sm:h-55 md:h-70 lg:h-90" : "max-h-[90vh] object-contain"
-              }`}
-            />
+            <div className={isMultiple ? "aspect-4/3" : "aspect-video max-h-[90vh]"}>
+              <img
+                loading="lazy"
+                src={import.meta.env.VITE_BASE_URL + banner?.url}
+                alt={`Banner ${banner?.id}`}
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
           </div>
         ))}
       </Carousel>
