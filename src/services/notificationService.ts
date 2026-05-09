@@ -2,7 +2,6 @@ import type { ApiResponse } from "../types/apiResponse";
 import { createBaseApiFactory } from "./base/baseFactory";
 
 interface ContactFormData {
-  type: "contact";
   name: string;
   phone: string;
   email: string;

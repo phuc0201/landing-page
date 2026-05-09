@@ -25,7 +25,6 @@ export default function ContactForm() {
 
     try {
       const result = await sendContact({
-        type: "contact",
         name: formData.name,
         phone: formData.phone,
         email: formData.email,
