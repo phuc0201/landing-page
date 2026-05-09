@@ -3,6 +3,7 @@ import { CiSearch } from "react-icons/ci";
 import { IoCloseOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useSearchQuery } from "../../services/searchService";
+import getImageUrl from "../../utils/getImageUrl";
 import toSlug from "../../utils/slugify";
 
 interface HeaderSearchDropdownProps {
@@ -126,7 +127,7 @@ export default function HeaderSearchDropdown({
                         >
                           {product?.thumbnailUrl ? (
                             <img
-                              src={import.meta.env.VITE_BASE_URL + product.thumbnailUrl}
+                              src={getImageUrl(product.thumbnailUrl) ?? ""}
                               alt={product.name}
                               className="w-12 h-12 object-cover rounded-lg shrink-0 border border-gray-100"
                             />
@@ -181,7 +182,7 @@ export default function HeaderSearchDropdown({
                         >
                           {blog.thumbnailUrl ? (
                             <img
-                              src={import.meta.env.VITE_BASE_URL + blog.thumbnailUrl}
+                              src={getImageUrl(blog.thumbnailUrl)}
                               alt={blog.title}
                               className="w-12 h-12 object-cover rounded-lg shrink-0 border border-gray-100"
                             />

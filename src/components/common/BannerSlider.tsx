@@ -1,16 +1,16 @@
 import { Carousel } from "antd";
 import { useMemo } from "react";
+import getImageUrl from "../../utils/getImageUrl";
 
 interface BannerSliderProps {
   itemsToShow?: number;
   items: any[];
+  aspectRatio?: string; // e.g. "16/9", "4/3", "21/9"
 }
 
 function getInitialSlides(itemsToShow: number): number {
   if (typeof window === "undefined") return itemsToShow;
-
   const width = window.innerWidth;
-
   if (width < 480) return 1;
   if (width < 768) return Math.min(2, itemsToShow);
   if (width < 1024) return Math.max(1, Math.floor(itemsToShow * 0.5));
@@ -18,11 +18,13 @@ function getInitialSlides(itemsToShow: number): number {
   return itemsToShow;
 }
 
-export default function BannerSlider({ items, itemsToShow = 1 }: BannerSliderProps) {
+export default function BannerSlider({
+  items,
+  itemsToShow = 1,
+  aspectRatio = "16/9",
+}: BannerSliderProps) {
   const isMultiple = itemsToShow > 1;
-
   const initialSlides = useMemo(() => getInitialSlides(itemsToShow), [itemsToShow]);
-
   const getResponsiveCount = (ratio: number) => Math.max(1, Math.floor(itemsToShow * ratio));
 
   const responsiveSettings = isMultiple
@@ -56,11 +58,11 @@ export default function BannerSlider({ items, itemsToShow = 1 }: BannerSliderPro
         responsive={responsiveSettings}
       >
         {items.map((banner: any) => (
-          <div key={banner?.id} className={`overflow-hidden ${isMultiple ? "px-1" : ""}`}>
-            <div className={isMultiple ? "aspect-4/3" : "aspect-video max-h-[90vh]"}>
+          <div key={banner?.id} className={isMultiple ? "px-1" : ""}>
+            <div className="w-full overflow-hidden" style={{ aspectRatio }}>
               <img
                 loading="lazy"
-                src={import.meta.env.VITE_BASE_URL + banner?.url}
+                src={getImageUrl(banner?.url)}
                 alt={`Banner ${banner?.id}`}
                 className="w-full h-full object-cover object-center"
               />

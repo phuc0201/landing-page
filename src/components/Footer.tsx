@@ -131,7 +131,7 @@ const Footer: React.FC = () => {
       </div>
 
       <div className="border-t border-gray-200">
-        <div className="flex justify-center py-4 text-xs text-gray-400">
+        <div className="flex justify-center py-4 px-4 text-center text-xs text-gray-400">
           <p>
             © {new Date().getFullYear()} {contact?.name || "MediBiotech"}. All rights reserved.
           </p>

@@ -7,6 +7,7 @@ import ProductImageSlider from "../../components/product/ProductImageSlider";
 import { useSiteConfig } from "../../provider";
 import { useGetProductByIdQuery, useGetProductsQuery } from "../../services/productService";
 import type { Product } from "../../types/product.type";
+import getImageUrl from "../../utils/getImageUrl";
 import toSlug from "../../utils/slugify";
 
 const formatCurrency = (value: number) =>
@@ -66,7 +67,7 @@ function RelatedProducts({
               summary=""
               thumbnailUrl={
                 product.thumbnailUrl
-                  ? import.meta.env.VITE_BASE_URL + product.thumbnailUrl
+                  ? getImageUrl(product.thumbnailUrl)
                   : "https://via.placeholder.com/300?text=No+Image"
               }
             />
@@ -154,7 +155,9 @@ export default function ProductDetail() {
           {/* PRODUCT INFO */}
           <div className="grid lg:grid-cols-5 md:gap-10 gap-4">
             <div className="lg:col-span-2">
-              <ProductImageSlider images={product?.images || []} />
+              <ProductImageSlider
+                images={product?.images?.filter((p) => p?.scope === "product") || []}
+              />
             </div>
             <div className="lg:col-span-3">
               <div className="md:space-y-6 space-y-1">

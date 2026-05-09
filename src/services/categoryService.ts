@@ -2,7 +2,7 @@ import type { Category } from "../types/category.type";
 import { createBaseApiFactory } from "./base/baseFactory";
 
 export const cateService = createBaseApiFactory<Category, "Category">({
-  resource: "categories",
+  resource: "/categories",
   tag: "Category",
 });
 

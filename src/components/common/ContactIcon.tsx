@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSiteConfig } from "../../provider";
+import getImageUrl from "../../utils/getImageUrl";
 
 export default function ContactIcon() {
   const { siteConfig } = useSiteConfig();
@@ -16,7 +17,7 @@ export default function ContactIcon() {
             className="inline-block text-white rounded-lg font-semibold"
           >
             <img
-              src={import.meta.env.VITE_BASE_URL + (item?.image?.url || "")}
+              src={getImageUrl(item?.image?.url) || ""}
               alt={`Contact Icon ${index + 1}`}
               className="h-10 w-10 object-cover"
             />

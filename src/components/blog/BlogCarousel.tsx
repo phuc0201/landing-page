@@ -3,6 +3,7 @@ import { Carousel } from "antd";
 import { useEffect, useState } from "react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import { useGetBlogsQuery } from "../../services/blogService";
+import getImageUrl from "../../utils/getImageUrl";
 import BlogCard from "./BlogCard";
 
 const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
@@ -67,7 +68,7 @@ export default function BlogCarousel() {
             <BlogCard
               id={b.id}
               title={b.title}
-              thumbnailUrl={b.thumbnailUrl ? import.meta.env.VITE_BASE_URL + b.thumbnailUrl : ""}
+              thumbnailUrl={b.thumbnailUrl ? getImageUrl(b.thumbnailUrl) : ""}
               createdAt={b.createdAt}
             />
           </div>

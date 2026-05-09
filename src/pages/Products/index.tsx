@@ -13,6 +13,7 @@ export default function Products() {
   const [items, setItems] = useState<Product[]>([]);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
   const [showSkeleton, setShowSkeleton] = useState(true);
+  const [resetKey, setResetKey] = useState(0);
 
   const [searchParams] = useSearchParams();
   const rawCategory = searchParams.get("danh-muc");
@@ -47,24 +48,18 @@ export default function Products() {
       }
       return next;
     });
-  }, [productRes, page]);
+  }, [productRes, page, resetKey]);
 
   useEffect(() => {
-    if (isLoading) {
+    if (isLoading && items.length === 0) {
       setShowSkeleton(true);
       return;
     }
 
-    if (items.length === 0) {
-      setShowSkeleton(true);
-      return;
+    if (!isLoading && !isFetching) {
+      const timer = window.setTimeout(() => setShowSkeleton(false), 120);
+      return () => window.clearTimeout(timer);
     }
-
-    const timer = window.setTimeout(() => {
-      setShowSkeleton(false);
-    }, 120);
-
-    return () => window.clearTimeout(timer);
   }, [isLoading, items.length]);
 
   // infinite scroll: load next page when near bottom
@@ -87,7 +82,7 @@ export default function Products() {
   // reset page when category changes
   useEffect(() => {
     setPage(1);
-    setItems([]);
+    setResetKey((k) => k + 1);
   }, [parsedCategory]);
 
   return (
@@ -113,7 +108,7 @@ export default function Products() {
 
         <p className="text-sm text-gray-400">{items.length} sản phẩm</p>
 
-        <div className="grid">
+        {/* <div className="grid">
           <div
             className="col-start-1 row-start-1 transition-opacity duration-300 ease-out"
             style={{ opacity: showSkeleton ? 1 : 0, pointerEvents: showSkeleton ? "auto" : "none" }}
@@ -125,6 +120,29 @@ export default function Products() {
           <div
             className="col-start-1 row-start-1 transition-opacity duration-300 ease-out"
             style={{ opacity: showSkeleton ? 0 : 1, pointerEvents: showSkeleton ? "none" : "auto" }}
+          >
+            <ProductGrid products={items} />
+          </div>
+        </div> */}
+
+        <div className="grid">
+          <div
+            className="col-start-1 row-start-1 transition-opacity duration-300 ease-out"
+            style={{
+              opacity: showSkeleton ? 1 : 0,
+              pointerEvents: showSkeleton ? "auto" : "none",
+            }}
+            aria-hidden={!showSkeleton}
+          >
+            <ProductGridSkeleton />
+          </div>
+
+          <div
+            className="col-start-1 row-start-1 transition-opacity duration-300 ease-out"
+            style={{
+              opacity: showSkeleton ? 0 : isFetching && page === 1 ? 0.4 : 1,
+              pointerEvents: showSkeleton || (isFetching && page === 1) ? "none" : "auto",
+            }}
           >
             <ProductGrid products={items} />
           </div>

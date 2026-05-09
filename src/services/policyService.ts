@@ -2,7 +2,7 @@ import type { Policy } from "../types/policy.type";
 import { createBaseApiFactory } from "./base/baseFactory";
 
 export const policyService = createBaseApiFactory<Policy, "Policy">({
-  resource: "policies",
+  resource: "/policies",
   tag: "Policy",
 });
 

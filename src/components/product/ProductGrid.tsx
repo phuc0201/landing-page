@@ -1,5 +1,6 @@
 import ProductThumbnail from "../../assets/products/prod1.jpg";
 import type { Product } from "../../types/product.type";
+import getImageUrl from "../../utils/getImageUrl";
 import ProductCard from "./ProductCard";
 
 interface ProductGridProps {
@@ -26,9 +27,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
             price={product.price}
             salePrice={product.salePrice}
             thumbnailUrl={
-              product.thumbnailUrl
-                ? import.meta.env.VITE_BASE_URL + product.thumbnailUrl
-                : ProductThumbnail
+              product.thumbnailUrl ? getImageUrl(product.thumbnailUrl) : ProductThumbnail
             }
           />
         </div>

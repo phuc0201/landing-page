@@ -10,7 +10,7 @@ interface ContactFormData {
 }
 
 export const notificationService = createBaseApiFactory<any, "Notification">({
-  resource: "notifications",
+  resource: "/notifications",
   tag: "Notification",
 });
 

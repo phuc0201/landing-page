@@ -1,6 +1,7 @@
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { SiteConfigImage } from "../../types/siteConfig.type";
+import getImageUrl from "../../utils/getImageUrl";
 
 interface ProductImageSliderProps {
   images: SiteConfigImage[];
@@ -31,8 +32,6 @@ function injectSlideStyle() {
 
 export default function ProductImageSlider({ images, badge }: ProductImageSliderProps) {
   injectSlideStyle();
-
-  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const [current, setCurrent] = useState(0);
   // outgoing holds the index of the image sliding out; null when idle
@@ -109,7 +108,7 @@ export default function ProductImageSlider({ images, badge }: ProductImageSlider
         {outgoing !== null && direction && (
           <img
             key={`out-${outgoing}`}
-            src={baseUrl + (images[outgoing]?.url ?? "")}
+            src={getImageUrl(images[outgoing]?.url) ?? ""}
             alt={`Product Image ${outgoing + 1}`}
             className={`absolute inset-0 w-full h-full object-cover ${outClass}`}
           />
@@ -118,7 +117,7 @@ export default function ProductImageSlider({ images, badge }: ProductImageSlider
         {/* Current image — animates in; no class on initial render */}
         <img
           key={`in-${current}`}
-          src={baseUrl + (images[current]?.url ?? "")}
+          src={getImageUrl(images[current]?.url) ?? ""}
           alt={`Product Image ${current + 1}`}
           className={`absolute inset-0 w-full h-full object-cover ${direction ? inClass : ""}`}
         />
@@ -156,7 +155,7 @@ export default function ProductImageSlider({ images, badge }: ProductImageSlider
             `}
           >
             <img
-              src={baseUrl + (img.url ?? "")}
+              src={getImageUrl(img.url) ?? ""}
               alt={`Product Image ${i + 1}`}
               className="w-full h-full object-cover"
               loading="lazy"

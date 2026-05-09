@@ -3,6 +3,7 @@ import HeroSection from "../../components/common/HeroSection";
 import { useSiteConfig } from "../../provider";
 import { useGetManufacturingProcessQuery } from "../../services/manuService";
 import type { SiteConfigItem } from "../../types/siteConfig.type";
+import getImageUrl from "../../utils/getImageUrl";
 
 const StepItem: React.FC<{ step: SiteConfigItem; reverse?: boolean }> = ({ step, reverse }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -44,7 +45,7 @@ const StepItem: React.FC<{ step: SiteConfigItem; reverse?: boolean }> = ({ step,
         `}
       >
         <img
-          src={import.meta.env.VITE_BASE_URL + step.image?.url}
+          src={getImageUrl(step.image?.url)}
           className="w-full h-full object-cover hover:scale-105 transition duration-500"
         />
       </div>
@@ -73,11 +74,7 @@ export default function ManufacturingProcess() {
     <div>
       <HeroSection
         title={manuProcessConfig?.title || "Quy trình sản xuất"}
-        imgUrl={
-          manuProcessConfig?.image?.url
-            ? import.meta.env.VITE_BASE_URL + manuProcessConfig.image.url
-            : ""
-        }
+        imgUrl={manuProcessConfig?.image?.url ? getImageUrl(manuProcessConfig.image.url) : ""}
       />
 
       <div className="bg-[radial-gradient(circle_at_top,rgba(120,7,14,0.08),transparent_28%),linear-gradient(180deg,#fff_0%,#fffaf8_100%)]">

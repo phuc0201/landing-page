@@ -2,7 +2,7 @@ import type { Blog } from "../types/blog.type";
 import { createBaseApiFactory } from "./base/baseFactory";
 
 export const blogService = createBaseApiFactory<Blog, "blogs">({
-  resource: "blogs",
+  resource: "/blogs",
   tag: "blogs",
 });
 

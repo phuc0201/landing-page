@@ -5,6 +5,7 @@ import LogoDefault from "../assets/images/logo_default.png";
 import { useSiteConfig, useWishlist } from "../provider";
 import { useGetCategoriesQuery } from "../services/categoryService";
 import { useGetPoliciesQuery } from "../services/policyService";
+import getImageUrl from "../utils/getImageUrl";
 import toSlug from "../utils/slugify";
 import HeaderLogo from "./header/HeaderLogo";
 import HeaderMobileDrawer from "./header/HeaderMobileDrawer";
@@ -41,9 +42,7 @@ export default function Header({
   const { data: categoryResult } = useGetCategoriesQuery({});
   const { data: policiesResult } = useGetPoliciesQuery({});
 
-  const logoUrl = siteConfig?.icon?.mainLogo.url
-    ? import.meta.env.VITE_BASE_URL + siteConfig.icon.mainLogo.url
-    : null;
+  const logoUrl = siteConfig?.icon?.mainLogo.url ? getImageUrl(siteConfig.icon.mainLogo.url) : null;
 
   const navItems: NavItem[] = [
     { label: "Trang chủ", href: "/" },

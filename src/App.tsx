@@ -5,13 +5,14 @@ import LogoDefault from "./assets/images/logo_default.png";
 import { useSiteConfig, WishlistProvider } from "./provider";
 import { router } from "./routes/router";
 import { useGetSiteConfigQuery } from "./services/siteConfigService";
+import getImageUrl from "./utils/getImageUrl";
 
 function AppContent() {
   const { data: siteConfigResult } = useGetSiteConfigQuery();
   const { siteConfig, setSiteConfig, setIsConfigReady } = useSiteConfig();
   const [isDesktop, setIsDesktop] = useState(false);
 
-  const faviconUrl = import.meta.env.VITE_BASE_URL + siteConfigResult?.data?.icon?.favicon?.url;
+  const faviconUrl = getImageUrl(siteConfigResult?.data?.icon?.favicon?.url);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");

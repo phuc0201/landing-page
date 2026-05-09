@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { FaPhone } from "react-icons/fa";
 import { GoPlus } from "react-icons/go";
 import { useSiteConfig } from "../../provider";
+import getImageUrl from "../../utils/getImageUrl";
 
 export default function FloatBtn() {
   const { siteConfig } = useSiteConfig();
@@ -38,7 +39,7 @@ export default function FloatBtn() {
       id: item.id,
       icon: (
         <img
-          src={import.meta.env.VITE_BASE_URL + item.image?.url}
+          src={getImageUrl(item.image?.url)}
           style={{
             width: childIconSize,
             height: childIconSize,

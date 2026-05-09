@@ -12,7 +12,7 @@ const aboutExtraApi = aboutService.injectEndpoints({
   endpoints: (builder) => ({
     getAbout: builder.query<About, void>({
       query: () => ({
-        url: "site-configs/about",
+        url: "/site-configs/about",
         method: "GET",
       }),
       transformResponse: (response: ApiResponse<About>) => {

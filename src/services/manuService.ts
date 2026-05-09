@@ -3,7 +3,7 @@ import type { ManufacturingProcess } from "../types/manu.type";
 import { createBaseApiFactory } from "./base/baseFactory";
 
 export const manuService = createBaseApiFactory<ManufacturingProcess, "manu">({
-  resource: "manu",
+  resource: "/manu",
   tag: "manu",
 });
 

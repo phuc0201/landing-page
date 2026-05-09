@@ -1,4 +1,5 @@
 import type { Product } from "../../types/product.type";
+import getImageUrl from "../../utils/getImageUrl";
 import ProductCard from "./ProductCard";
 
 export type PopularProductItem = {
@@ -42,9 +43,7 @@ export default function PopularProduct({
               summary={product.summary || ""}
               price={product.price}
               salePrice={product.salePrice}
-              thumbnailUrl={
-                product.thumbnailUrl ? import.meta.env.VITE_BASE_URL + product.thumbnailUrl : ""
-              }
+              thumbnailUrl={product.thumbnailUrl ? getImageUrl(product.thumbnailUrl) : ""}
             />
           ))}
         </div>
