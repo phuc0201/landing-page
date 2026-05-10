@@ -22,6 +22,24 @@ body {
   @apply max-w-360 lg:px-10 sm:px-5 px-3 mx-auto;
 }
 
+.layout-breadcrumb {
+  font-size: clamp(14px, 1.1vw + 0.35rem, 18px);
+  line-height: 1.5;
+}
+
+.layout-breadcrumb a,
+.layout-breadcrumb .ant-breadcrumb-link,
+.layout-breadcrumb .ant-breadcrumb-separator {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+@media (min-width: 768px) {
+  .layout-breadcrumb {
+    font-size: clamp(16px, 0.8vw + 0.5rem, 18px);
+  }
+}
+
 /* Reset để CKEditor styles hoạt động */
 .ck-content p {
   text-align: inherit;

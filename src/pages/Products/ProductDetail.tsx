@@ -1,9 +1,11 @@
+import { Tabs } from "antd";
 import { useEffect, useState } from "react";
 import { FaFacebook } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import ProductCard from "../../components/product/ProductCard";
 import ProductDetailSkeleton from "../../components/product/ProductDetailSkeleton";
 import ProductImageSlider from "../../components/product/ProductImageSlider";
+import ProductReviewForm from "../../components/product/ProductReviewForm";
 import { useSiteConfig } from "../../provider";
 import { useGetProductByIdQuery, useGetProductsQuery } from "../../services/productService";
 import type { Product } from "../../types/product.type";
@@ -136,7 +138,7 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className="section-container lg:py-12 py-5">
+    <div className="section-container py-5">
       <div className="grid w-full">
         {/* SKELETON */}
         <div
@@ -210,11 +212,27 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          {/* DESCRIPTION */}
-          <div className="ck-content">
-            <h2 className="mt-10 mb-5 md:text-3xl text-xl font-bold">Mô tả sản phẩm</h2>
-            <div dangerouslySetInnerHTML={{ __html: product?.description || "" }} />
-          </div>
+          <Tabs
+            className="mt-10 product-detail-tabs"
+            size="large"
+            defaultActiveKey="description"
+            items={[
+              {
+                key: "description",
+                label: <span className="text-base font-semibold">Mô tả</span>,
+                children: (
+                  <div className="ck-content">
+                    <div dangerouslySetInnerHTML={{ __html: product?.description || "" }} />
+                  </div>
+                ),
+              },
+              {
+                key: "review",
+                label: <span className="text-base font-semibold">Đánh giá</span>,
+                children: <ProductReviewForm productName={product?.name || "Sản phẩm"} />,
+              },
+            ]}
+          />
 
           {/* RELATED PRODUCTS */}
           {product?.categoryId && (

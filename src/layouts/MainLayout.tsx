@@ -1,5 +1,6 @@
+import { Breadcrumb } from "antd";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { Outlet, useLocation, useMatches } from "react-router-dom";
+import { Link, Outlet, useLocation, useMatches } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Topbar from "../components/Topbar";
@@ -14,9 +15,33 @@ type LayoutHandle = {
   };
 };
 
+type RouteHandle = {
+  title?: string;
+  breadcrumb?:
+    | string
+    | ((ctx: { params: Record<string, string | undefined>; data?: unknown }) => string);
+};
+
 export default function MainLayout() {
   const { pathname } = useLocation();
   const matches = useMatches();
+
+  const breadcrumbMatches = useMatches() as Array<{
+    pathname: string;
+    params: Record<string, string | undefined>;
+    data?: unknown;
+    handle?: RouteHandle;
+  }>;
+
+  const breadcrumbItems = breadcrumbMatches
+    .filter((m) => !!m.handle?.breadcrumb)
+    .map((m) => {
+      const bc = m.handle?.breadcrumb;
+      const label = typeof bc === "function" ? bc({ params: m.params, data: m.data }) : bc;
+      return { title: <Link to={m.pathname}>{label}</Link> };
+    });
+  const hasBreadcrumb = breadcrumbItems.length > 0;
+
   const headerRef = useRef<HTMLDivElement>(null);
   const [headerHeight, setHeaderHeight] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -105,6 +130,20 @@ export default function MainLayout() {
       </div>
 
       <main style={isSticky ? {} : { marginTop: `${-headerHeight}px` }} className="relative">
+        {hasBreadcrumb && (
+          <div className="section-container pt-5">
+            <Breadcrumb
+              className="layout-breadcrumb"
+              items={[
+                {
+                  href: "/",
+                  title: "Trang chủ",
+                },
+                ...breadcrumbItems,
+              ]}
+            />
+          </div>
+        )}
         <Outlet />
       </main>
       <FloatBtn />

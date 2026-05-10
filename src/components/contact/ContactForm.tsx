@@ -138,7 +138,7 @@ export default function ContactForm() {
 
       {error && (
         <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded">
-          <p className="text-sm text-red-700 font-medium">{error}</p>
+          <p className="text-sm text-red-700 font-medium">{"Có lỗi xảy ra. Vui lòng thử lại."}</p>
         </div>
       )}
 

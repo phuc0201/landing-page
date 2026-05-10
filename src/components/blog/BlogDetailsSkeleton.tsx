@@ -1,6 +1,6 @@
 export default function BlogDetailsSkeleton() {
   return (
-    <div className="section-container md:py-12 py-5 min-h-150 mx-auto">
+    <div className="section-container py-5 min-h-150 mx-auto">
       <div className="h-8 bg-gray-200 rounded w-3/4 mb-4 animate-pulse" />
       <div className="h-4 bg-gray-200 rounded w-1/4 mb-8 animate-pulse" />
 

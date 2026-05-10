@@ -86,7 +86,7 @@ export default function Products() {
   }, [parsedCategory]);
 
   return (
-    <section className="section-container lg:py-12 py-5 mx-auto lg:min-h-100">
+    <section className="section-container py-5 mx-auto lg:min-h-100">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div>
@@ -107,23 +107,6 @@ export default function Products() {
         />
 
         <p className="text-sm text-gray-400">{items.length} sản phẩm</p>
-
-        {/* <div className="grid">
-          <div
-            className="col-start-1 row-start-1 transition-opacity duration-300 ease-out"
-            style={{ opacity: showSkeleton ? 1 : 0, pointerEvents: showSkeleton ? "auto" : "none" }}
-            aria-hidden={!showSkeleton}
-          >
-            {isLoading || isFetching ? <ProductGridSkeleton /> : null}
-          </div>
-
-          <div
-            className="col-start-1 row-start-1 transition-opacity duration-300 ease-out"
-            style={{ opacity: showSkeleton ? 0 : 1, pointerEvents: showSkeleton ? "none" : "auto" }}
-          >
-            <ProductGrid products={items} />
-          </div>
-        </div> */}
 
         <div className="grid">
           <div

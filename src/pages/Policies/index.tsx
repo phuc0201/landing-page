@@ -37,7 +37,7 @@ export default function Policies() {
         </div>
 
         <div
-          className="section-container py-10 ck-content col-start-1 row-start-1 transition-opacity duration-300 ease-out"
+          className="section-container py-5 ck-content col-start-1 row-start-1 transition-opacity duration-300 ease-out"
           style={{ opacity: showSkeleton ? 0 : 1, pointerEvents: showSkeleton ? "none" : "auto" }}
         >
           <div dangerouslySetInnerHTML={{ __html: policiesResult?.data?.content || "" }} />

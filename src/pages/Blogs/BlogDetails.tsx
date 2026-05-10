@@ -63,7 +63,7 @@ export default function BlogDetails() {
 
         {/* main layout: article + sidebar */}
         <div
-          className="section-container md:py-12 py-5 col-start-1 row-start-1 transition-opacity duration-300 ease-out"
+          className="section-container py-5 col-start-1 row-start-1 transition-opacity duration-300 ease-out"
           style={{ opacity: showSkeleton ? 0 : 1, pointerEvents: showSkeleton ? "none" : "auto" }}
         >
           {!blog ? (
@@ -105,7 +105,7 @@ export default function BlogDetails() {
 
               {/* ── Sidebar: danh sách bài viết ── */}
               {otherBlogs.length > 0 && (
-                <aside className="w-full lg:w-72 shrink-0 sticky top-24 self-start">
+                <aside className="w-full lg:w-72 shrink-0 self-start">
                   <div className="">
                     <h2 className="mb-4 text-base font-semibold text-gray-800">
                       Bài viết liên quan

@@ -6,6 +6,8 @@ import MainLayout from "../layouts/MainLayout";
 import About from "../pages/About";
 import Home from "../pages/Home";
 import ManufacturingProcess from "../pages/ManufacturingProcess";
+import { productService } from "../services/productService";
+import { store } from "../store";
 import RouteTitleSync from "./RouteTitleSync";
 
 // const About = lazy(() => import("../pages/About"));
@@ -24,6 +26,24 @@ const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => (
   </Suspense>
 );
 
+const getProductIdFromSlug = (slug?: string) => {
+  if (!slug) return null;
+
+  const idPart = slug.split("-").slice(-1)[0];
+  const id = Number(idPart);
+
+  return Number.isFinite(id) ? id : null;
+};
+
+const getBlogIdFromSlug = (slug?: string) => {
+  if (!slug) return null;
+
+  const idPart = slug.match(/-(\d+)$/)?.[1];
+  const id = Number(idPart);
+
+  return Number.isFinite(id) ? id : null;
+};
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -41,7 +61,10 @@ export const router = createBrowserRouter([
       },
       {
         path: "gioi-thieu",
-        handle: { title: "Về chúng tôi", layout: { headerMode: "fixed" } },
+        handle: {
+          title: "Về chúng tôi",
+          layout: { headerMode: "fixed" },
+        },
         element: (
           <SuspenseWrapper>
             <About />
@@ -50,43 +73,86 @@ export const router = createBrowserRouter([
       },
       {
         path: "san-pham",
-        handle: { title: "Sản phẩm", layout: { headerMode: "sticky" } },
-        element: (
-          <SuspenseWrapper>
-            <Products />
-          </SuspenseWrapper>
-        ),
-      },
-      {
-        path: "san-pham/:slug",
-        handle: { title: "Chi tiết sản phẩm" },
-        element: (
-          <SuspenseWrapper>
-            <ProductDetail />
-          </SuspenseWrapper>
-        ),
+        handle: { title: "Sản phẩm", breadcrumb: "Sản phẩm", layout: { headerMode: "sticky" } },
+        children: [
+          {
+            index: true,
+            element: (
+              <SuspenseWrapper>
+                <Products />
+              </SuspenseWrapper>
+            ),
+          },
+          {
+            path: ":slug",
+            handle: {
+              title: "Chi tiết sản phẩm",
+              breadcrumb: ({ data }: { data?: unknown }) => {
+                const product = data as { name?: string } | null | undefined;
+                return product?.name ?? "Chi tiết sản phẩm";
+              },
+              layout: { headerMode: "sticky" },
+            },
+            loader: async ({ params }) => {
+              const productId = getProductIdFromSlug(params.slug);
+
+              if (!productId) {
+                return null;
+              }
+
+              try {
+                const response = await store
+                  .dispatch(
+                    productService.endpoints.getById.initiate(productId, {
+                      subscribe: false,
+                    }),
+                  )
+                  .unwrap();
+
+                return response.data;
+              } catch (error) {
+                console.error("Failed to preload product for breadcrumb:", error);
+                return null;
+              }
+            },
+            element: (
+              <SuspenseWrapper>
+                <ProductDetail />
+              </SuspenseWrapper>
+            ),
+          },
+        ],
       },
       {
         path: "tin-tuc",
-        handle: { title: "Bài viết" },
-        element: (
-          <Suspense fallback={<BlogListSkeleton />}>
-            <Blogs />
-          </Suspense>
-        ),
-      },
-      {
-        path: "tin-tuc/:slug",
-        handle: { title: "Chi tiết bài viết" },
-        element: (
-          <Suspense fallback={<BlogDetailsSkeleton />}>
-            <BlogDetails />
-          </Suspense>
-        ),
+        handle: { title: "Tin tức", breadcrumb: "Tin tức", layout: { headerMode: "sticky" } },
+        children: [
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<BlogListSkeleton />}>
+                <Blogs />
+              </Suspense>
+            ),
+          },
+          {
+            path: ":slug",
+            handle: {
+              title: "Chi tiết tin tức",
+              breadcrumb: "Chi tiết tin tức",
+              layout: { headerMode: "sticky" },
+            },
+            element: (
+              <Suspense fallback={<BlogDetailsSkeleton />}>
+                <BlogDetails />
+              </Suspense>
+            ),
+          },
+        ],
       },
       {
         path: "chinh-sach/:slug",
-        handle: { title: "Chính sách" },
+        handle: { title: "Chính sách", breadcrumb: "Chính sách", layout: { headerMode: "sticky" } },
         element: (
           <SuspenseWrapper>
             <Policies />
@@ -95,7 +161,10 @@ export const router = createBrowserRouter([
       },
       {
         path: "quy-trinh-san-xuat",
-        handle: { title: "Quy trình sản xuất", layout: { headerMode: "fixed" } },
+        handle: {
+          title: "Quy trình sản xuất",
+          layout: { headerMode: "fixed" },
+        },
         element: (
           <SuspenseWrapper>
             <ManufacturingProcess />

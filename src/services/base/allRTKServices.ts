@@ -2,6 +2,7 @@ import { aboutService } from "../aboutService";
 import { blogService } from "../blogService";
 import { cateService } from "../categoryService";
 import { manuService } from "../manuService";
+import { notificationService } from "../notificationService";
 import { policyService } from "../policyService";
 import { productService } from "../productService";
 import { searchService } from "../searchService";
@@ -16,4 +17,5 @@ export const allRTKServices = {
   manuService,
   blogService,
   searchService,
+  notificationService,
 };
