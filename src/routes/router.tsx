@@ -35,15 +35,6 @@ const getProductIdFromSlug = (slug?: string) => {
   return Number.isFinite(id) ? id : null;
 };
 
-const getBlogIdFromSlug = (slug?: string) => {
-  if (!slug) return null;
-
-  const idPart = slug.match(/-(\d+)$/)?.[1];
-  const id = Number(idPart);
-
-  return Number.isFinite(id) ? id : null;
-};
-
 export const router = createBrowserRouter([
   {
     path: "/",

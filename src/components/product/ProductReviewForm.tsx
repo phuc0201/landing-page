@@ -54,7 +54,7 @@ export default function ProductReviewForm({ productName }: ProductReviewFormProp
     <div className="rounded-xl border border-(--primary-color) bg-linear-to-br bg-(--primary-color)/1 p-5 shadow-sm md:p-8">
       <div className="mb-6">
         <p className="text-sm font-semibold tracking-[0.2em] text-(--primary-color) uppercase">
-          Review sản phẩm
+          Đánh giá sản phẩm
         </p>
         <h3 className="mt-2 text-2xl font-bold text-gray-900 md:text-3xl">Đánh giá của bạn</h3>
         <p className="mt-2 text-sm text-gray-600 md:text-base">
