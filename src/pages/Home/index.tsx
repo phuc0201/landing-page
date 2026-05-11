@@ -37,7 +37,7 @@ export default function Home() {
         imgUrl={homeSectionConfig?.image?.url ? getImageUrl(homeSectionConfig.image.url) : ""}
         actions={
           <Link
-            to="/contact"
+            to="/san-pham"
             className="inline-block lg:px-20 px-10 py-3 bg-(--primary-color) text-white md:text-lg text-xs font-medium rounded-full hover:bg-[#a50b0b] hover:text-white transition-colors"
           >
             Khám phá ngay
