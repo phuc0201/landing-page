@@ -47,7 +47,9 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        handle: { title: "Trang chủ", layout: { headerMode: "fixed" } },
+        handle: {
+          layout: { headerMode: "fixed" },
+        },
         element: <Home />,
       },
       {
