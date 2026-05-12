@@ -84,7 +84,7 @@ const Footer: React.FC = () => {
               {policiesData?.data?.map((pol) => (
                 <li key={pol.id} className="text-center md:text-left">
                   <Link
-                    to={`/policies/${toSlug(pol.title)}-${pol.id}`}
+                    to={`/chinh-sach/${toSlug(pol.title)}-${pol.id}`}
                     className="text-gray-500 text-sm focus:outline-none "
                   >
                     {pol.title}
