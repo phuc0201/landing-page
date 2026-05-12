@@ -23,7 +23,7 @@ export default function ProductReviewForm({ productName }: ProductReviewFormProp
     e.preventDefault();
     setError(null);
 
-    const reviewPrefix = `Khách hàng đánh giá sản phẩm ${productName} ${rating} sao`;
+    const reviewPrefix = `Khách hàng đánh giá sản phẩm ${productName} ${rating} sao \n`;
     const emailContent = `${reviewPrefix}\n${formData.message}`;
 
     try {
