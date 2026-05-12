@@ -79,18 +79,19 @@ export default function MainLayout() {
       return;
     }
 
-    const scrollEl =
-      document.documentElement.scrollHeight > document.documentElement.clientHeight
-        ? document.documentElement
-        : document.body;
-
     const handleScroll = () => {
-      setIsScrolled((scrollEl.scrollTop ?? window.scrollY) >= 10);
+      const scrollTop =
+        window.scrollY ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        document.scrollingElement?.scrollTop ||
+        0;
+      setIsScrolled(scrollTop >= 10);
     };
 
     handleScroll();
-    scrollEl.addEventListener("scroll", handleScroll);
-    return () => scrollEl.removeEventListener("scroll", handleScroll);
+    document.addEventListener("scroll", handleScroll, { passive: true });
+    return () => document.removeEventListener("scroll", handleScroll);
   }, [isSticky]);
 
   useEffect(() => {
@@ -100,7 +101,7 @@ export default function MainLayout() {
   }, []);
 
   useLayoutEffect(() => {
-    const scrollTarget = document.scrollingElement ?? document.documentElement;
+    const scrollTarget = document.scrollingElement ?? document.documentElement ?? document.body;
 
     window.scrollTo(0, 0);
     scrollTarget.scrollTop = 0;

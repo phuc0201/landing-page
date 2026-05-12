@@ -10,11 +10,14 @@ layer(base);
   display: none;
 }
 
-html,
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  min-height: 100vh; /* thay vì height: 100% */
   @apply bg-white overflow-x-hidden overflow-y-auto;
 }
 

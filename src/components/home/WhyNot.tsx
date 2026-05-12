@@ -20,7 +20,7 @@ export default function WhyNot({ reasons }: { reasons: SiteConfigItem[] }) {
                 next[index] = true;
                 return next;
               });
-            }, index * 120);
+            }, index * 50);
           }
         },
         { threshold: 0.1 },
@@ -33,7 +33,7 @@ export default function WhyNot({ reasons }: { reasons: SiteConfigItem[] }) {
   }, []);
 
   return (
-    <section className="max-w-5xl mx-auto py-16 md:py-20 px-4">
+    <section className="mx-auto py-16 md:py-20 px-4">
       {/* Header */}
       <div className="mb-14">
         <p className="text-xs font-medium tracking-[0.2em] uppercase text-gray-400 mb-3">

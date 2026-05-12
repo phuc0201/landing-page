@@ -24,14 +24,13 @@ export default function ContactForm() {
     setError(null);
 
     try {
-      const result = await sendContact({
+      await sendContact({
         name: formData.name,
         phone: formData.phone,
         email: formData.email,
         message: formData.message,
       }).unwrap();
 
-      console.log("Contact sent successfully:", result);
       setSubmitted(true);
       setFormData({
         name: "",

@@ -1,7 +1,6 @@
 import { Tabs } from "antd";
 import { useEffect, useState } from "react";
-import { FaFacebook } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ProductCard from "../../components/product/ProductCard";
 import ProductDetailSkeleton from "../../components/product/ProductDetailSkeleton";
 import ProductImageSlider from "../../components/product/ProductImageSlider";
@@ -11,6 +10,7 @@ import { useGetProductByIdQuery, useGetProductsQuery } from "../../services/prod
 import type { Product } from "../../types/product.type";
 import getImageUrl from "../../utils/getImageUrl";
 import toSlug from "../../utils/slugify";
+import { CiFacebook } from "react-icons/ci";
 
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat("vi-VN", {
@@ -96,6 +96,15 @@ export default function ProductDetail() {
   } = useGetProductByIdQuery(Number(id ?? 0), { skip: !isValidId });
 
   const product = productDetails?.data;
+
+  const handleShareFacebook = () => {
+    const url =
+      "https://medibiotech.vn/san-pham/" + toSlug(product?.name || "") + "-" + product?.id;
+
+    const shareUrl = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url);
+
+    window.open(shareUrl, "_blank", "width=600,height=500");
+  };
 
   useEffect(() => {
     if (isLoading || isFetching) {
@@ -193,21 +202,12 @@ export default function ProductDetail() {
                   </a>
                 </div>
 
-                <Link
-                  to={
-                    "https://www.facebook.com/sharer.php?u=" +
-                    "https://medibiotech.vn/san-pham/" +
-                    toSlug(product?.name || "") +
-                    "-" +
-                    product?.id
-                  }
-                  className="flex gap-3 items-center group mt-1"
+                <button
+                  onClick={handleShareFacebook}
+                  className="flex gap-3 items-center group mt-2"
                 >
-                  <FaFacebook className="text-gray-400 text-3xl group-hover:text-blue-800 transition-colors" />
-                  <span className="text-gray-400 font-semibold group-hover:text-blue-800 transition-colors">
-                    Chia sẻ lên Facebook
-                  </span>
-                </Link>
+                  <CiFacebook className="text-gray-400 group-hover:text-blue-800 transition-colors text-4xl" />
+                </button>
               </div>
             </div>
           </div>

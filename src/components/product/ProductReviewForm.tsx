@@ -94,6 +94,7 @@ export default function ProductReviewForm({ productName }: ProductReviewFormProp
             onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
             placeholder="example@email.com"
             size="large"
+            type={"email"}
           />
         </div>
       </div>
@@ -105,6 +106,7 @@ export default function ProductReviewForm({ productName }: ProductReviewFormProp
           onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
           placeholder="0912 345 678"
           size="large"
+          type={"tel"}
         />
       </div>
 

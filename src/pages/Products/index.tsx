@@ -109,16 +109,18 @@ export default function Products() {
         <p className="text-sm text-gray-400">{items.length} sản phẩm</p>
 
         <div className="grid">
-          <div
-            className="col-start-1 row-start-1 transition-opacity duration-300 ease-out"
-            style={{
-              opacity: showSkeleton ? 1 : 0,
-              pointerEvents: showSkeleton ? "auto" : "none",
-            }}
-            aria-hidden={!showSkeleton}
-          >
-            <ProductGridSkeleton />
-          </div>
+          {showSkeleton && (
+            <div
+              className="col-start-1 row-start-1 transition-opacity duration-300 ease-out"
+              style={{
+                opacity: showSkeleton ? 1 : 0,
+                pointerEvents: showSkeleton ? "auto" : "none",
+              }}
+              aria-hidden={!showSkeleton}
+            >
+              <ProductGridSkeleton />
+            </div>
+          )}
 
           <div
             className="col-start-1 row-start-1 transition-opacity duration-300 ease-out"
