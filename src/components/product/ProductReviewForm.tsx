@@ -23,8 +23,11 @@ export default function ProductReviewForm({ productName }: ProductReviewFormProp
     e.preventDefault();
     setError(null);
 
-    const reviewPrefix = `Khách hàng đánh giá sản phẩm ${productName} ${rating} sao với nội dung: `;
-    const emailContent = `${reviewPrefix}\n${formData.message}`;
+    const emailContent = [
+      `Sản phẩm: ${productName}`,
+      `Số sao: ${"⭐".repeat(rating)} (${rating}/5)`,
+      `Nội dung: ${formData.message}`,
+    ].join("\n");
 
     try {
       await sendContact({
