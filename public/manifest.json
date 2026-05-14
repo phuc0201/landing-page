@@ -1,6 +1,7 @@
 {
-  "name": "Medibiotech",
-  "short_name": "Medibiotech",
+  "name": "Công Ty TNHH Nấm Dược Liệu MEDI Biotech Việt Nam",
+  "alternateName": "Medi Biotech",
+  "short_name": "Medi Biotech",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
