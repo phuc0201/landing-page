@@ -42,7 +42,9 @@ export default function Header({
   const { data: categoryResult } = useGetCategoriesQuery({});
   const { data: policiesResult } = useGetPoliciesQuery({});
 
-  const logoUrl = siteConfig?.icon?.mainLogo.url ? getImageUrl(siteConfig.icon.mainLogo.url) : null;
+  const mainLogoUrl = siteConfig?.icon?.mainLogo?.url ? getImageUrl(siteConfig.icon.mainLogo.url) : null;
+  const subLogoUrl = siteConfig?.icon?.subLogo?.url ? getImageUrl(siteConfig.icon.subLogo.url) : null;
+  const logoUrl = isDesktop ? mainLogoUrl : (subLogoUrl || mainLogoUrl);
 
   const navItems: NavItem[] = [
     { label: "Trang chủ", href: "/" },

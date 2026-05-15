@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LogoDefault from "../assets/images/logo_default.png";
 import { useSiteConfig } from "../provider";
@@ -11,12 +11,25 @@ const Footer: React.FC = () => {
   const { data: popularProducts, isLoading: loadingProducts } = useGetPopularProductsQuery();
   const { data: policiesData } = useGetPoliciesQuery({});
   const { siteConfig } = useSiteConfig();
+  const [isDesktop, setIsDesktop] = useState<boolean>(true);
 
   const contactIcon = siteConfig?.contact;
   const contact = siteConfig?.contactInfor;
-  const logoUrl = siteConfig?.icon?.mainLogo?.url
+
+  const mainLogoUrl = siteConfig?.icon?.mainLogo?.url
     ? getImageUrl(siteConfig.icon.mainLogo.url)
-    : LogoDefault;
+    : null;
+  const subLogoUrl = siteConfig?.icon?.subLogo?.url
+    ? getImageUrl(siteConfig.icon.subLogo.url)
+    : null;
+  const logoUrl = isDesktop ? (mainLogoUrl || LogoDefault) : (subLogoUrl || mainLogoUrl || LogoDefault);
+
+  useEffect(() => {
+    const onResize = () => setIsDesktop(window.innerWidth >= 1024);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   const products = (popularProducts || []).slice(0, 6);
 
