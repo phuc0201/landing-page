@@ -13,10 +13,16 @@ const BlogCarousel = lazy(() => import("../../components/blog/BlogCarousel"));
 const BannerSlider = lazy(() => import("../../components/common/BannerSlider"));
 const ContactForm = lazy(() => import("../../components/contact/ContactForm"));
 const WhyNot = lazy(() => import("../../components/home/WhyNot"));
-const PopularProduct = lazy(() => import("../../components/product/PopularProduct"));
+const PopularProduct = lazy(
+  () => import("../../components/product/PopularProduct"),
+);
 
 function SectionFallback() {
-  return <div className="w-full h-40 animate-pulse bg-gray-100 rounded">Loading.......</div>;
+  return (
+    <div className="w-full h-40 animate-pulse bg-gray-100 rounded">
+      Loading.......
+    </div>
+  );
 }
 
 export default function Home() {
@@ -32,13 +38,17 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       <HeroSection
-        title={homeSectionConfig?.title || "Chào mừng đến với MediBiotech"}
+        title={homeSectionConfig?.title || ""}
         content="Khám phá các sản phẩm và dịch vụ tuyệt vời của chúng tôi."
-        imgUrl={homeSectionConfig?.image?.url ? getImageUrl(homeSectionConfig.image.url) : ""}
+        imgUrl={
+          homeSectionConfig?.image?.url
+            ? getImageUrl(homeSectionConfig.image.url)
+            : undefined
+        }
         actions={
           <Link
             to="/san-pham"
-            className="inline-block lg:px-20 px-10 py-3 bg-(--primary-color) text-white md:text-lg text-xs font-medium rounded-full hover:bg-[#a50b0b] hover:text-white transition-colors"
+            className="inline-block lg:px-20 px-10 py-3 bg-(--primary-color) text-white md:text-lg text-xs font-medium rounded-full hover:bg-(--primary-color)/90 hover:text-white transition-colors"
           >
             Khám phá ngay
           </Link>

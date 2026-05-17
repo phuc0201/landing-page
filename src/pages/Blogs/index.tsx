@@ -48,11 +48,6 @@ export default function Blogs() {
       return;
     }
 
-    if (items.length === 0) {
-      setShowSkeleton(true);
-      return;
-    }
-
     const timer = window.setTimeout(() => {
       setShowSkeleton(false);
     }, 120);
@@ -86,15 +81,44 @@ export default function Blogs() {
       <div className="grid">
         <div
           className="col-start-1 row-start-1 transition-opacity duration-300 ease-out"
-          style={{ opacity: showSkeleton ? 1 : 0, pointerEvents: showSkeleton ? "auto" : "none" }}
+          style={{
+            opacity: showSkeleton ? 1 : 0,
+            pointerEvents: showSkeleton ? "auto" : "none",
+          }}
           aria-hidden={!showSkeleton}
         >
           <BlogListSkeleton />
         </div>
         <div
           className="section-container py-5 col-start-1 row-start-1 transition-opacity duration-300 ease-out"
-          style={{ opacity: showSkeleton ? 0 : 1, pointerEvents: showSkeleton ? "none" : "auto" }}
+          style={{
+            opacity: showSkeleton ? 0 : 1,
+            pointerEvents: showSkeleton ? "none" : "auto",
+          }}
         >
+          {isEmpty && !showSkeleton && (
+            <div className="flex flex-col items-center justify-center py-24 text-center">
+              <svg
+                className="w-16 h-16 text-gray-300 mb-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.5}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z"
+                />
+              </svg>
+              <h3 className="text-lg font-semibold text-gray-500 mb-1">
+                Chưa có tin tức nào
+              </h3>
+              <p className="text-sm text-gray-400">
+                Vui lòng quay lại sau để xem các bài viết mới nhất.
+              </p>
+            </div>
+          )}
           {!isEmpty && (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {items.map((b) => {

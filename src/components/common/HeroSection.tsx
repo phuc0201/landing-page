@@ -1,77 +1,66 @@
-// interface HeroSectionProps {
-//   title: string;
-//   content?: string;
-//   imgUrl: string;
-//   actions?: React.ReactNode;
-// }
-
-// export default function HeroSection({ title, content, imgUrl, actions }: HeroSectionProps) {
-//   return (
-//     <section className="relative w-full h-[60vh] md:h-200 lg:h-230 overflow-hidden bg-white">
-//       <img
-//         loading="eager"
-//         src={imgUrl}
-//         className="absolute inset-0 w-full h-full object-cover bg-white"
-//       />
-
-//       <div className="absolute inset-0 bg-black/50" />
-//       <div className="relative h-full flex flex-col items-center justify-center px-4 md:px-8">
-//         <div className="text-center max-w-4xl mx-auto">
-//           <h1 className="text-2xl md:text-3xl lg:text-6xl leading-tight font-bold text-white mb-4 md:mb-6">
-//             {title}
-//           </h1>
-
-//           <p className="text-[10px] md:text-lg lg:text-xl text-white/90 text-balance mb-4 md:mb-6">
-//             {content}
-//           </p>
-
-//           <div className="w-16 h-1 bg-(--primary-color) mx-auto" />
-
-//           {actions && <div className="mt-6 flex flex-wrap justify-center gap-4">{actions}</div>}
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useHeroSection } from "../../provider/HeroSectionContext";
 
 interface HeroSectionProps {
-  title: string;
+  title?: string;
   content?: string;
-  imgUrl: string;
+  imgUrl?: string;
   actions?: React.ReactNode;
 }
 
-export default function HeroSection({ title, content, imgUrl, actions }: HeroSectionProps) {
+export default function HeroSection({
+  title,
+  content,
+  imgUrl,
+  actions,
+}: HeroSectionProps) {
   const [imgLoaded, setImgLoaded] = useState(false);
+  const { setHasHeroTitle } = useHeroSection();
+
+  useEffect(() => {
+    setHasHeroTitle(!!title);
+  }, [title, setHasHeroTitle]);
+
+  const hasTitle = !!title;
 
   return (
-    <section className="relative w-full h-[60vh] md:h-200 lg:h-230 overflow-hidden bg-black">
-      <img
-        loading="eager"
-        src={imgUrl}
-        onLoad={() => setImgLoaded(true)}
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-          imgLoaded ? "opacity-100" : "opacity-0"
-        }`}
-      />
+    <section
+      className={`relative w-full overflow-hidden bg-black ${hasTitle ? "h-[60vh] md:h-200 lg:h-230" : "h-auto"}`}
+    >
+      {imgUrl && (
+        <img
+          loading="eager"
+          src={imgUrl}
+          onLoad={() => setImgLoaded(true)}
+          className={`w-full ${hasTitle ? "absolute inset-0 h-full object-cover" : "h-auto block"} transition-opacity duration-700 ${
+            imgLoaded ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
 
       {/* Overlay luôn hiện, không phụ thuộc ảnh */}
-      <div className="absolute inset-0 bg-black/50" />
+      {title && title.trim() !== "" && (
+        <div className="absolute inset-0 bg-black/50" />
+      )}
 
-      <div className="relative h-full flex flex-col items-center justify-center px-4 md:px-8">
-        <div className="text-center max-w-4xl mx-auto">
-          <h1 className="text-2xl md:text-3xl lg:text-6xl leading-tight font-bold text-white mb-4 md:mb-6">
-            {title}
-          </h1>
-          <p className="text-[10px] md:text-lg lg:text-xl text-white/90 text-balance mb-4 md:mb-6">
-            {content}
-          </p>
-          <div className="w-16 h-1 bg-(--primary-color) mx-auto" />
-          {actions && <div className="mt-6 flex flex-wrap justify-center gap-4">{actions}</div>}
+      {hasTitle && (
+        <div className="relative h-full flex flex-col items-center justify-center px-4 md:px-8">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-2xl md:text-3xl lg:text-6xl leading-tight font-bold text-white mb-4 md:mb-6">
+              {title}
+            </h1>
+            <p className="text-[10px] md:text-lg lg:text-xl text-white/90 text-balance mb-4 md:mb-6">
+              {content}
+            </p>
+            <div className="w-16 h-1 bg-(--primary-color) mx-auto" />
+            {actions && (
+              <div className="mt-6 flex flex-wrap justify-center gap-4">
+                {actions}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

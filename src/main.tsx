@@ -4,13 +4,16 @@ import { Provider } from "react-redux";
 import App from "./App.tsx";
 import "./index.css";
 import SiteConfigProvider from "./provider/SiteConfigProvider.tsx";
+import { HeroSectionProvider } from "./provider/HeroSectionContext";
 import { store } from "./store.ts";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
       <SiteConfigProvider>
-        <App />
+        <HeroSectionProvider>
+          <App />
+        </HeroSectionProvider>
       </SiteConfigProvider>
     </Provider>
   </StrictMode>,

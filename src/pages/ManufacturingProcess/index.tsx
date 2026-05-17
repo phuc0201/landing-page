@@ -5,7 +5,10 @@ import { useGetManufacturingProcessQuery } from "../../services/manuService";
 import type { SiteConfigItem } from "../../types/siteConfig.type";
 import getImageUrl from "../../utils/getImageUrl";
 
-const StepItem: React.FC<{ step: SiteConfigItem; reverse?: boolean }> = ({ step, reverse }) => {
+const StepItem: React.FC<{ step: SiteConfigItem; reverse?: boolean }> = ({
+  step,
+  reverse,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -57,9 +60,13 @@ const StepItem: React.FC<{ step: SiteConfigItem; reverse?: boolean }> = ({ step,
           in-[.animate-in]:opacity-100 in-[.animate-in]:translate-x-0
         `}
       >
-        <div className="text-sm text-red-700 font-semibold mb-2">Bước {step.index}</div>
+        <div className="text-sm text-red-700 font-semibold mb-2">
+          Bước {step.index}
+        </div>
         <h3 className="text-2xl md:text-3xl font-bold mb-4">{step.title}</h3>
-        <p className="text-gray-600 leading-relaxed whitespace-pre-line">{step.content}</p>
+        <p className="text-gray-600 leading-relaxed whitespace-pre-line">
+          {step.content}
+        </p>
       </div>
     </div>
   );
@@ -73,15 +80,23 @@ export default function ManufacturingProcess() {
   return (
     <div>
       <HeroSection
-        title={manuProcessConfig?.title || "Quy trình sản xuất"}
-        imgUrl={manuProcessConfig?.image?.url ? getImageUrl(manuProcessConfig.image.url) : ""}
+        title={manuProcessConfig?.title ?? undefined}
+        imgUrl={
+          manuProcessConfig?.image?.url
+            ? getImageUrl(manuProcessConfig.image.url)
+            : undefined
+        }
       />
 
       <div className="bg-[radial-gradient(circle_at_top,rgba(120,7,14,0.08),transparent_28%),linear-gradient(180deg,#fff_0%,#fffaf8_100%)]">
         <div className="max-w-6xl mx-auto px-4 py-16">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h1 className="text-3xl md:text-5xl font-bold mb-6">{manuProcessData?.title}</h1>
-            <p className="text-gray-600 leading-relaxed">{manuProcessData?.intro}</p>
+            <h1 className="text-3xl md:text-5xl font-bold mb-6">
+              {manuProcessData?.title}
+            </h1>
+            <p className="text-gray-600 leading-relaxed">
+              {manuProcessData?.intro}
+            </p>
           </div>
 
           <div className="relative">

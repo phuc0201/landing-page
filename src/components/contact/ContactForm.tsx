@@ -129,7 +129,7 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3 text-sm font-semibold text-white bg-(--primary-color) rounded hover:bg-[#5f0509] active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-3 text-sm font-semibold text-white bg-(--primary-color) rounded hover:bg-(--primary-color)/90 active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? "Đang gửi..." : submitted ? "Đã gửi thành công!" : "Gửi"}
         </button>

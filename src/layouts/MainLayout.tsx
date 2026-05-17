@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Topbar from "../components/Topbar";
 import FloatBtn from "../components/common/FloatBtn";
+import { useHeroSection } from "../provider/HeroSectionContext";
 
 type HeaderMode = "sticky" | "fixed";
 
@@ -19,12 +20,16 @@ type RouteHandle = {
   title?: string;
   breadcrumb?:
     | string
-    | ((ctx: { params: Record<string, string | undefined>; data?: unknown }) => string);
+    | ((ctx: {
+        params: Record<string, string | undefined>;
+        data?: unknown;
+      }) => string);
 };
 
 export default function MainLayout() {
   const { pathname } = useLocation();
   const matches = useMatches();
+  const { hasHeroTitle } = useHeroSection();
 
   const breadcrumbMatches = useMatches() as Array<{
     pathname: string;
@@ -37,7 +42,8 @@ export default function MainLayout() {
     .filter((m) => !!m.handle?.breadcrumb)
     .map((m) => {
       const bc = m.handle?.breadcrumb;
-      const label = typeof bc === "function" ? bc({ params: m.params, data: m.data }) : bc;
+      const label =
+        typeof bc === "function" ? bc({ params: m.params, data: m.data }) : bc;
       return { title: <Link to={m.pathname}>{label}</Link> };
     });
   const hasBreadcrumb = breadcrumbItems.length > 0;
@@ -49,9 +55,15 @@ export default function MainLayout() {
   const headerMode: HeaderMode = useMemo(() => {
     const matchedRoute = [...matches]
       .reverse()
-      .find((match) => (match.handle as LayoutHandle | undefined)?.layout?.headerMode);
+      .find(
+        (match) =>
+          (match.handle as LayoutHandle | undefined)?.layout?.headerMode,
+      );
 
-    return (matchedRoute?.handle as LayoutHandle | undefined)?.layout?.headerMode ?? "sticky";
+    return (
+      (matchedRoute?.handle as LayoutHandle | undefined)?.layout?.headerMode ??
+      "sticky"
+    );
   }, [matches]);
 
   const isSticky = headerMode === "sticky";
@@ -101,7 +113,8 @@ export default function MainLayout() {
   }, []);
 
   useLayoutEffect(() => {
-    const scrollTarget = document.scrollingElement ?? document.documentElement ?? document.body;
+    const scrollTarget =
+      document.scrollingElement ?? document.documentElement ?? document.body;
 
     window.scrollTo(0, 0);
     scrollTarget.scrollTop = 0;
@@ -130,7 +143,12 @@ export default function MainLayout() {
         <Header ref={headerRef} scrolled={scrolled} />
       </div>
 
-      <main style={isSticky ? {} : { marginTop: `${-headerHeight}px` }} className="relative">
+      <main
+        style={
+          isSticky || !hasHeroTitle ? {} : { marginTop: `${-headerHeight}px` }
+        }
+        className="relative"
+      >
         {hasBreadcrumb && (
           <div className="section-container pt-5">
             <Breadcrumb

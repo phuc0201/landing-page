@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { GoHeart } from "react-icons/go";
 import { Link, useLocation } from "react-router-dom";
 import LogoDefault from "../assets/images/logo_default.png";
-import { useSiteConfig, useWishlist } from "../provider";
+import { useSiteConfig, useWishlist, useHeroSection } from "../provider";
 import { useGetCategoriesQuery } from "../services/categoryService";
 import { useGetPoliciesQuery } from "../services/policyService";
 import getImageUrl from "../utils/getImageUrl";
@@ -32,9 +32,12 @@ export default function Header({
 }) {
   const { siteConfig } = useSiteConfig();
   const { items: wishlistItems } = useWishlist();
+  const { hasHeroTitle } = useHeroSection();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({});
-  const [mobileSubmenus, setMobileSubmenus] = useState<Record<string, boolean>>({});
+  const [mobileSubmenus, setMobileSubmenus] = useState<Record<string, boolean>>(
+    {},
+  );
   const [isDesktop, setIsDesktop] = useState<boolean>(true);
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
@@ -42,9 +45,13 @@ export default function Header({
   const { data: categoryResult } = useGetCategoriesQuery({});
   const { data: policiesResult } = useGetPoliciesQuery({});
 
-  const mainLogoUrl = siteConfig?.icon?.mainLogo?.url ? getImageUrl(siteConfig.icon.mainLogo.url) : null;
-  const subLogoUrl = siteConfig?.icon?.subLogo?.url ? getImageUrl(siteConfig.icon.subLogo.url) : null;
-  const logoUrl = isDesktop ? mainLogoUrl : (subLogoUrl || mainLogoUrl);
+  const mainLogoUrl = siteConfig?.icon?.mainLogo?.url
+    ? getImageUrl(siteConfig.icon.mainLogo.url)
+    : null;
+  const subLogoUrl = siteConfig?.icon?.subLogo?.url
+    ? getImageUrl(siteConfig.icon.subLogo.url)
+    : null;
+  const logoUrl = isDesktop ? mainLogoUrl : subLogoUrl || mainLogoUrl;
 
   const navItems: NavItem[] = [
     { label: "Trang chủ", href: "/" },
@@ -83,27 +90,28 @@ export default function Header({
     return cur === href || cur.startsWith(href);
   };
 
-  const toggleSubmenu = (label: string) => setOpenSubmenus((s) => ({ ...s, [label]: !s[label] }));
+  const toggleSubmenu = (label: string) =>
+    setOpenSubmenus((s) => ({ ...s, [label]: !s[label] }));
   const toggleMobileSubmenu = (label: string) =>
     setMobileSubmenus((s) => ({ ...s, [label]: !s[label] }));
 
   return (
     <header
       ref={ref}
-      className={`z-40 ${scrolled ? "bg-white shadow" : "bg-transparent"} transition-colors duration-300`}
+      className={`z-40 ${scrolled || !hasHeroTitle ? "bg-white shadow" : "bg-transparent"} transition-colors duration-300`}
     >
       <div className="section-container mx-auto px-4">
         <div
-          className={`flex items-center justify-between ${scrolled ? "py-1" : "py-4"} transition-all duration-300`}
+          className={`flex items-center justify-between ${scrolled || !hasHeroTitle ? "py-1" : "py-4"} transition-all duration-300`}
         >
           {/* Logo */}
-          <HeaderLogo logoUrl={logoUrl} scrolled={scrolled} />
+          <HeaderLogo logoUrl={logoUrl} scrolled={scrolled || !hasHeroTitle} />
 
           {/* Navigation */}
           <HeaderNav
             navItems={navItems}
             isDesktop={isDesktop}
-            scrolled={scrolled}
+            scrolled={scrolled || !hasHeroTitle}
             isActive={isActive}
             openSubmenus={openSubmenus}
             toggleSubmenu={toggleSubmenu}
@@ -112,11 +120,17 @@ export default function Header({
           {/* Search Box + Wishlist + Mobile Button */}
           <div className="flex items-center gap-2">
             <div className="relative hidden sm:block w-72">
-              <HeaderSearchDropdown searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+              <HeaderSearchDropdown
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+              />
             </div>
 
             <button className="header-wishlist hidden sm:flex w-11 h-11 rounded-full bg-primary text-white items-center justify-center hover:bg-[#5a0509] transition-colors text-lg relative">
-              <Link to="/yeu-thich" className="flex items-center justify-center w-full h-full">
+              <Link
+                to="/yeu-thich"
+                className="flex items-center justify-center w-full h-full"
+              >
                 <GoHeart />
                 {wishlistItems.length > 0 && (
                   <span className="absolute top-1 right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
@@ -134,7 +148,7 @@ export default function Header({
               onClick={() => setMobileOpen(true)}
             >
               <svg
-                className={`h-6 w-6 group-hover:text-gray-700 ${scrolled ? "text-gray-700" : "text-gray-300"}`}
+                className={`h-6 w-6 group-hover:text-gray-700 ${scrolled || !hasHeroTitle ? "text-gray-700" : "text-gray-300"}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

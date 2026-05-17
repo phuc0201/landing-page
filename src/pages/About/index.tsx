@@ -1,4 +1,3 @@
-import BannerDefault from "../../assets/banners/banner2.webp";
 import HeroSection from "../../components/common/HeroSection";
 import { useSiteConfig } from "../../provider";
 import { useGetAboutQuery } from "../../services/aboutService";
@@ -48,7 +47,9 @@ export default function About() {
     <div className="bg-[radial-gradient(circle at top,rgba(120,7,14,0.08),transparent 28%),linear-gradient(180deg,#fff 0%,#fffaf8 100%)]">
       <HeroSection
         title={heroConfig?.title || "Giới thiệu về MediBiotech"}
-        imgUrl={heroConfig?.image?.url ? getImageUrl(heroConfig.image.url) : BannerDefault}
+        imgUrl={
+          heroConfig?.image?.url ? getImageUrl(heroConfig.image.url) : undefined
+        }
       />
 
       <section className="section-container py-14 md:py-20">
@@ -59,7 +60,8 @@ export default function About() {
                 Giới thiệu
               </p>
               <h2 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight mb-5">
-                MEDI BIOTECH Việt Nam phát triển nấm dược liệu bằng nền tảng công nghệ sinh học
+                MEDI BIOTECH Việt Nam phát triển nấm dược liệu bằng nền tảng
+                công nghệ sinh học
               </h2>
               <p className="text-base md:text-lg text-gray-600 leading-8 md:leading-9">
                 {aboutData?.intro ||
@@ -77,8 +79,12 @@ export default function About() {
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-(--primary-color) mb-3">
                   {card.label}
                 </p>
-                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{card.title}</h3>
-                <p className="text-sm md:text-base leading-8 text-gray-600">{card.content}</p>
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                  {card.title}
+                </h3>
+                <p className="text-sm md:text-base leading-8 text-gray-600">
+                  {card.content}
+                </p>
               </article>
             ))}
           </div>
@@ -92,8 +98,8 @@ export default function About() {
                 Các nguyên tắc định hướng toàn bộ hoạt động
               </h3>
               <p className="max-w-3xl text-sm md:text-base leading-7 text-gray-600">
-                Những giá trị này tạo nên bản sắc vận hành, từ nghiên cứu đến nuôi trồng và chăm sóc
-                khách hàng.
+                Những giá trị này tạo nên bản sắc vận hành, từ nghiên cứu đến
+                nuôi trồng và chăm sóc khách hàng.
               </p>
             </div>
 

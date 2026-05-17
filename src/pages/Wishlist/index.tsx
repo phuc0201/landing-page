@@ -37,7 +37,7 @@ export default function Wishlist() {
             </p>
             <Link
               to="/san-pham?danh-muc=all"
-              className="inline-block px-8 py-3 bg-(--primary-color) text-white font-semibold hover:bg-[#5a0509] transition-colors"
+              className="inline-block px-8 py-3 bg-(--primary-color) text-white font-semibold hover:bg-(--primary-color)/90"
             >
               Xem sản phẩm
             </Link>
