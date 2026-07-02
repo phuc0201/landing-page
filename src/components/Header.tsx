@@ -126,7 +126,7 @@ export default function Header({
               />
             </div>
 
-            <button className="header-wishlist hidden sm:flex w-11 h-11 rounded-full bg-primary text-white items-center justify-center hover:bg-[#5a0509] transition-colors text-lg relative">
+            <button className="header-wishlist hidden sm:flex w-11 h-11 rounded-full bg-primary text-white items-center justify-center hover:bg-(--primary-color)/90 transition-colors text-lg relative">
               <Link
                 to="/yeu-thich"
                 className="flex items-center justify-center w-full h-full"

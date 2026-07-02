@@ -6,7 +6,10 @@ import ProductDetailSkeleton from "../../components/product/ProductDetailSkeleto
 import ProductImageSlider from "../../components/product/ProductImageSlider";
 import ProductReviewForm from "../../components/product/ProductReviewForm";
 import { useSiteConfig } from "../../provider";
-import { useGetProductByIdQuery, useGetProductsQuery } from "../../services/productService";
+import {
+  useGetProductByIdQuery,
+  useGetProductsQuery,
+} from "../../services/productService";
 import type { Product } from "../../types/product.type";
 import getImageUrl from "../../utils/getImageUrl";
 import toSlug from "../../utils/slugify";
@@ -31,15 +34,22 @@ function RelatedProducts({
     { skip: !categoryId },
   );
 
-  const related = productRes?.data?.filter((p) => p.id !== currentProductId).slice(0, 8) ?? [];
+  const related =
+    productRes?.data?.filter((p) => p.id !== currentProductId).slice(0, 8) ??
+    [];
 
   if (isLoading) {
     return (
       <div className="mt-12">
-        <h2 className="md:text-3xl text-xl font-bold mb-6">Sản phẩm tương tự</h2>
+        <h2 className="md:text-3xl text-xl font-bold mb-6">
+          Sản phẩm tương tự
+        </h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="rounded-xl overflow-hidden border border-gray-100">
+            <div
+              key={i}
+              className="rounded-xl overflow-hidden border border-gray-100"
+            >
               <div className="aspect-square bg-gray-200 animate-pulse" />
               <div className="p-3 space-y-2">
                 <div className="h-4 bg-gray-200 rounded animate-pulse" />
@@ -99,9 +109,13 @@ export default function ProductDetail() {
 
   const handleShareFacebook = () => {
     const url =
-      "https://medibiotech.vn/san-pham/" + toSlug(product?.name || "") + "-" + product?.id;
+      "https://medibiotech.vn/san-pham/" +
+      toSlug(product?.name || "") +
+      "-" +
+      product?.id;
 
-    const shareUrl = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url);
+    const shareUrl =
+      "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url);
 
     window.open(shareUrl, "_blank", "width=600,height=500");
   };
@@ -152,7 +166,10 @@ export default function ProductDetail() {
         {/* SKELETON */}
         <div
           className="col-start-1 row-start-1 transition-opacity duration-300 ease-out"
-          style={{ opacity: showSkeleton ? 1 : 0, pointerEvents: showSkeleton ? "auto" : "none" }}
+          style={{
+            opacity: showSkeleton ? 1 : 0,
+            pointerEvents: showSkeleton ? "auto" : "none",
+          }}
           aria-hidden={!showSkeleton}
         >
           <ProductDetailSkeleton />
@@ -161,18 +178,25 @@ export default function ProductDetail() {
         {/* CONTENT */}
         <div
           className="col-start-1 row-start-1 w-full transition-opacity duration-300 ease-out"
-          style={{ opacity: showSkeleton ? 0 : 1, pointerEvents: showSkeleton ? "none" : "auto" }}
+          style={{
+            opacity: showSkeleton ? 0 : 1,
+            pointerEvents: showSkeleton ? "none" : "auto",
+          }}
         >
           {/* PRODUCT INFO */}
           <div className="grid lg:grid-cols-5 md:gap-10 gap-4">
             <div className="lg:col-span-2">
               <ProductImageSlider
-                images={product?.images?.filter((p) => p?.scope === "product") || []}
+                images={
+                  product?.images?.filter((p) => p?.scope === "product") || []
+                }
               />
             </div>
             <div className="lg:col-span-3">
               <div className="md:space-y-6 space-y-1">
-                <h1 className="md:text-5xl text-xl font-semibold text-gray-900">{product?.name}</h1>
+                <h1 className="md:text-5xl text-xl font-semibold text-gray-900">
+                  {product?.name}
+                </h1>
 
                 <div className="flex items-center gap-4">
                   <div className="text-2xl font-semibold text-(--primary-color)">
@@ -190,13 +214,15 @@ export default function ProductDetail() {
                 </div>
 
                 {product?.summary && (
-                  <div className="text-gray-700 whitespace-pre-line">{product.summary}</div>
+                  <div className="text-gray-700 whitespace-pre-line">
+                    {product.summary}
+                  </div>
                 )}
 
                 <div className="pt-4">
                   <a
                     href={`tel:${contactPhone.replace(/\s+/g, "")}`}
-                    className="inline-block px-6 py-3 w-full text-center bg-(--primary-color) text-white rounded-lg font-semibold hover:bg-[#5a0509] transition-colors"
+                    className="inline-block px-6 py-3 w-full text-center bg-(--primary-color) text-white rounded-lg font-semibold hover:bg-(--primary-color)/90 transition-colors"
                   >
                     Liên hệ
                   </a>
@@ -222,21 +248,34 @@ export default function ProductDetail() {
                 label: <span className="text-base font-semibold">Mô tả</span>,
                 children: (
                   <div className="ck-content">
-                    <div dangerouslySetInnerHTML={{ __html: product?.description || "" }} />
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: product?.description || "",
+                      }}
+                    />
                   </div>
                 ),
               },
               {
                 key: "review",
-                label: <span className="text-base font-semibold">Đánh giá</span>,
-                children: <ProductReviewForm productName={product?.name || "Sản phẩm"} />,
+                label: (
+                  <span className="text-base font-semibold">Đánh giá</span>
+                ),
+                children: (
+                  <ProductReviewForm
+                    productName={product?.name || "Sản phẩm"}
+                  />
+                ),
               },
             ]}
           />
 
           {/* RELATED PRODUCTS */}
           {product?.categoryId && (
-            <RelatedProducts categoryId={product.categoryId} currentProductId={product.id} />
+            <RelatedProducts
+              categoryId={product.categoryId}
+              currentProductId={product.id}
+            />
           )}
         </div>
       </div>

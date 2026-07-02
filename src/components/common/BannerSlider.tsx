@@ -24,26 +24,43 @@ export default function BannerSlider({
   aspectRatio = "16/9",
 }: BannerSliderProps) {
   const isMultiple = itemsToShow > 1;
-  const initialSlides = useMemo(() => getInitialSlides(itemsToShow), [itemsToShow]);
-  const getResponsiveCount = (ratio: number) => Math.max(1, Math.floor(itemsToShow * ratio));
+  const initialSlides = useMemo(
+    () => getInitialSlides(itemsToShow),
+    [itemsToShow],
+  );
+  const getResponsiveCount = (ratio: number) =>
+    Math.max(1, Math.floor(itemsToShow * ratio));
 
   const responsiveSettings = isMultiple
     ? [
         {
           breakpoint: 1280,
-          settings: { slidesToShow: getResponsiveCount(0.75), slidesToScroll: 1 },
+          settings: {
+            slidesToShow: getResponsiveCount(0.75),
+            slidesToScroll: 1,
+          },
         },
         {
           breakpoint: 1024,
-          settings: { slidesToShow: getResponsiveCount(0.5), slidesToScroll: 1 },
+          settings: {
+            slidesToShow: getResponsiveCount(0.5),
+            slidesToScroll: 1,
+          },
         },
         {
           breakpoint: 768,
-          settings: { slidesToShow: Math.min(2, itemsToShow), slidesToScroll: 1 },
+          settings: {
+            slidesToShow: Math.min(2, itemsToShow),
+            slidesToScroll: 1,
+          },
         },
         { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
       ]
     : undefined;
+
+  if (!items || items.length === 0) {
+    return null;
+  }
 
   return (
     <div className={isMultiple ? "-mx-1" : ""}>

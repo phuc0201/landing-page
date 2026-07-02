@@ -9,8 +9,8 @@ import ManufacturingProcess from "../pages/ManufacturingProcess";
 import { productService } from "../services/productService";
 import { store } from "../store";
 import RouteTitleSync from "./RouteTitleSync";
+import ErrorBoundary from "../pages/ErrorBoundary";
 
-// const About = lazy(() => import("../pages/About"));
 const Blogs = lazy(() => import("../pages/Blogs"));
 const BlogDetails = lazy(() => import("../pages/Blogs/BlogDetails"));
 const Contact = lazy(() => import("../pages/Contact"));
@@ -21,7 +21,13 @@ const Wishlist = lazy(() => import("../pages/Wishlist"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
 const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => (
-  <Suspense fallback={<div className="section-container mx-auto min-h-250 py-10">Loading...</div>}>
+  <Suspense
+    fallback={
+      <div className="section-container mx-auto min-h-250 py-10">
+        Loading...
+      </div>
+    }
+  >
     {children}
   </Suspense>
 );
@@ -44,6 +50,7 @@ export const router = createBrowserRouter([
         <MainLayout />
       </>
     ),
+    errorElement: <ErrorBoundary />,
     children: [
       {
         index: true,
@@ -67,7 +74,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "san-pham",
-        handle: { title: "Sản phẩm", breadcrumb: "Sản phẩm", layout: { headerMode: "sticky" } },
+        handle: {
+          title: "Sản phẩm",
+          breadcrumb: "Sản phẩm",
+          layout: { headerMode: "sticky" },
+        },
         children: [
           {
             index: true,
@@ -105,7 +116,10 @@ export const router = createBrowserRouter([
 
                 return response.data;
               } catch (error) {
-                console.error("Failed to preload product for breadcrumb:", error);
+                console.error(
+                  "Failed to preload product for breadcrumb:",
+                  error,
+                );
                 return null;
               }
             },
@@ -119,7 +133,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "tin-tuc",
-        handle: { title: "Tin tức", breadcrumb: "Tin tức", layout: { headerMode: "sticky" } },
+        handle: {
+          title: "Tin tức",
+          breadcrumb: "Tin tức",
+          layout: { headerMode: "sticky" },
+        },
         children: [
           {
             index: true,
@@ -146,7 +164,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "chinh-sach/:slug",
-        handle: { title: "Chính sách", breadcrumb: "Chính sách", layout: { headerMode: "sticky" } },
+        handle: {
+          title: "Chính sách",
+          breadcrumb: "Chính sách",
+          layout: { headerMode: "sticky" },
+        },
         element: (
           <SuspenseWrapper>
             <Policies />
@@ -179,7 +201,10 @@ export const router = createBrowserRouter([
       },
       {
         path: "yeu-thich",
-        handle: { title: "Sản phẩm yêu thích", layout: { headerMode: "sticky" } },
+        handle: {
+          title: "Sản phẩm yêu thích",
+          layout: { headerMode: "sticky" },
+        },
         element: (
           <SuspenseWrapper>
             <Wishlist />

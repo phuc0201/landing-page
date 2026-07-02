@@ -36,13 +36,23 @@ export default function BlogCarousel() {
       pageSize: 8,
     },
   });
-  const [slidesToShow, setSlidesToShow] = useState(() => getSlidesToShow(window.innerWidth));
+  const [slidesToShow, setSlidesToShow] = useState(() =>
+    getSlidesToShow(window.innerWidth),
+  );
 
   useEffect(() => {
-    const handleResize = () => setSlidesToShow(getSlidesToShow(window.innerWidth));
+    const handleResize = () =>
+      setSlidesToShow(getSlidesToShow(window.innerWidth));
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const blogs = blogResult?.data || [];
+
+  if (blogs.length === 0) {
+    return null;
+  }
+
   return (
     <div className="-mx-2">
       <Carousel
@@ -59,7 +69,10 @@ export default function BlogCarousel() {
         slidesToShow={slidesToShow}
         slidesToScroll={1}
         responsive={[
-          { breakpoint: 1280, settings: { slidesToShow: 2, slidesToScroll: 1 } },
+          {
+            breakpoint: 1280,
+            settings: { slidesToShow: 2, slidesToScroll: 1 },
+          },
           { breakpoint: 768, settings: { slidesToShow: 1, slidesToScroll: 1 } },
         ]}
       >
